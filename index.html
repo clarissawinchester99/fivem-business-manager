@@ -2,14 +2,18 @@
 <html lang="it">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Luma Beach Bar</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -28,479 +32,877 @@
             font: inherit;
         }
 
-        /* LOGIN */
+        /* =========================
+           LOGIN
+        ========================= */
 
         #loginPage {
+
             min-height: 100vh;
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
+
             padding: 20px;
-            background: linear-gradient(135deg, #0057b8, #0095ff);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0057b8,
+                    #0095ff
+                );
+
         }
 
         .login-box {
+
             width: 100%;
+
             max-width: 420px;
-            background: #ffffff;
+
+            background: white;
+
             padding: 40px;
+
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+
+            box-shadow:
+                0 20px 60px
+                rgba(0,0,0,0.22);
+
         }
 
         .login-logo {
+
             text-align: center;
+
             margin-bottom: 30px;
+
+        }
+
+        .login-logo img {
+
+            width: 150px;
+
+            max-height: 150px;
+
+            object-fit: contain;
+
+            margin-bottom: 15px;
+
         }
 
         .login-logo h1 {
+
             color: #0561c9;
+
             font-size: 30px;
+
         }
 
         .login-logo p {
+
             color: #78849a;
+
             margin-top: 7px;
+
         }
 
         .error {
+
             display: none;
+
             margin-bottom: 15px;
+
             padding: 11px;
+
             background: #ffe8e8;
+
             color: #bf2525;
+
             border-radius: 8px;
+
         }
 
-        /* FORM */
+        /* =========================
+           FORM
+        ========================= */
 
         .input-group {
+
             margin-bottom: 18px;
+
         }
 
         .input-group label {
+
             display: block;
+
             font-weight: bold;
+
             margin-bottom: 7px;
+
         }
 
         .input-group input,
         .input-group select {
+
             width: 100%;
+
             padding: 13px;
+
             border: 1px solid #d8dfeb;
+
             border-radius: 9px;
+
             outline: none;
+
             background: white;
+
         }
 
         .input-group input:focus,
         .input-group select:focus {
+
             border-color: #0874e8;
+
         }
 
         .login-btn,
         .add-btn {
+
             border: none;
+
             background: #0874e8;
+
             color: white;
+
             font-weight: bold;
+
             border-radius: 9px;
+
             cursor: pointer;
+
         }
 
         .login-btn {
+
             width: 100%;
+
             padding: 14px;
+
             font-size: 16px;
+
         }
 
         .add-btn {
+
             padding: 14px 25px;
+
             height: 45px;
+
         }
 
         .login-btn:hover,
         .add-btn:hover {
+
             background: #005fc4;
+
         }
 
-        /* APP */
+        /* =========================
+           APP
+        ========================= */
 
         #app {
+
             display: none;
+
             min-height: 100vh;
+
         }
 
         .sidebar {
+
             width: 250px;
+
             min-height: 100vh;
+
             position: fixed;
+
             left: 0;
+
             top: 0;
-            padding: 25px 16px;
+
+            padding: 22px 16px;
+
             background: #075ebd;
+
             color: white;
+
         }
 
-        .sidebar h2 {
+        /* =========================
+           LOGO SIDEBAR
+        ========================= */
+
+        .sidebar-logo {
+
             text-align: center;
+
+            margin-bottom: 25px;
+
+        }
+
+        .sidebar-logo img {
+
+            width: 100px;
+
+            height: 100px;
+
+            object-fit: contain;
+
             margin-bottom: 8px;
+
         }
 
-        .sidebar-subtitle {
-            text-align: center;
-            font-size: 12px;
-            opacity: 0.75;
-            margin-bottom: 30px;
+        .sidebar-logo h2 {
+
+            font-size: 21px;
+
+            margin-bottom: 4px;
+
         }
+
+        .sidebar-logo p {
+
+            font-size: 11px;
+
+            opacity: 0.75;
+
+        }
+
+        /* =========================
+           MENU
+        ========================= */
 
         .menu-item {
+
             padding: 13px;
+
             margin-bottom: 8px;
+
             border-radius: 9px;
+
             cursor: pointer;
+
             transition: 0.2s;
+
         }
 
         .menu-item:hover,
         .menu-item.active {
-            background: rgba(255, 255, 255, 0.18);
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.18
+                );
+
         }
 
         #adminMenu {
+
             display: none;
-            background: rgba(255, 215, 0, 0.15);
+
+            background:
+                rgba(
+                    255,
+                    215,
+                    0,
+                    0.15
+                );
+
         }
 
         .sidebar-bottom {
+
             position: absolute;
+
             left: 16px;
+
             right: 16px;
+
             bottom: 25px;
+
         }
 
         .user-box {
-            background: rgba(255, 255, 255, 0.12);
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.12
+                );
+
             padding: 12px;
+
             border-radius: 9px;
+
             text-align: center;
+
             margin-bottom: 10px;
+
         }
 
         .username-display {
+
             font-weight: bold;
+
             margin-bottom: 4px;
+
         }
 
         .role-display {
+
             font-size: 12px;
+
             opacity: 0.8;
+
         }
 
         .logout-btn {
+
             width: 100%;
+
             border: none;
+
             padding: 11px;
+
             border-radius: 8px;
+
             cursor: pointer;
+
             background: white;
+
             color: #075ebd;
+
             font-weight: bold;
+
         }
 
+        /* =========================
+           MAIN
+        ========================= */
+
         .main {
+
             margin-left: 250px;
+
             padding: 30px;
+
         }
 
         .page {
+
             display: none;
+
         }
 
         .page.active {
+
             display: block;
+
         }
 
         .topbar {
+
             margin-bottom: 28px;
+
         }
 
         .topbar h1 {
+
             font-size: 28px;
+
         }
 
         .topbar p {
+
             color: #78849a;
+
             margin-top: 5px;
+
         }
 
-        /* CARDS */
+        /* =========================
+           CARDS
+        ========================= */
 
         .cards {
+
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+
+            grid-template-columns:
+                repeat(4,1fr);
+
             gap: 18px;
+
         }
 
         .card {
+
             background: white;
+
             border-radius: 14px;
+
             padding: 22px;
-            box-shadow: 0 5px 20px rgba(30, 60, 100, 0.08);
+
+            box-shadow:
+                0 5px 20px
+                rgba(
+                    30,
+                    60,
+                    100,
+                    0.08
+                );
+
         }
 
         .card-title {
+
             color: #6f7b90;
+
             font-size: 14px;
+
             margin-bottom: 12px;
+
         }
 
         .card-value {
+
             font-size: 27px;
+
             font-weight: bold;
+
             color: #0561c9;
+
         }
 
         .admin-card {
-            border-top: 4px solid #0561c9;
+
+            border-top:
+                4px solid #0561c9;
+
         }
 
-        /* SECTIONS */
+        /* =========================
+           SEZIONI
+        ========================= */
 
         .section {
+
             background: white;
+
             padding: 25px;
+
             border-radius: 14px;
+
             margin-top: 25px;
-            box-shadow: 0 5px 20px rgba(30, 60, 100, 0.08);
+
+            box-shadow:
+                0 5px 20px
+                rgba(
+                    30,
+                    60,
+                    100,
+                    0.08
+                );
+
         }
 
         .section h2 {
+
             margin-bottom: 20px;
+
         }
 
         .form-grid {
+
             display: grid;
-            grid-template-columns: 1fr 1fr auto;
+
+            grid-template-columns:
+                1fr 1fr auto;
+
             gap: 15px;
+
             align-items: end;
+
         }
 
-        /* TABLE */
+        /* =========================
+           TABELLE
+        ========================= */
 
         .table-wrapper {
+
             overflow-x: auto;
+
         }
 
         table {
+
             width: 100%;
+
             border-collapse: collapse;
+
         }
 
         th {
+
             text-align: left;
+
             padding: 13px;
+
             background: #f4f7fb;
+
             color: #68758a;
+
             white-space: nowrap;
+
         }
 
         td {
+
             padding: 13px;
-            border-bottom: 1px solid #edf0f5;
+
+            border-bottom:
+                1px solid #edf0f5;
+
         }
 
         .delete-btn {
+
             border: none;
+
             background: #ffeded;
+
             color: #d92626;
+
             padding: 7px 11px;
+
             border-radius: 6px;
+
             cursor: pointer;
-        }
 
-        .badge {
-            display: inline-block;
-            padding: 6px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .badge-admin {
-            background: #e4efff;
-            color: #075ebd;
-        }
-
-        .badge-employee {
-            background: #edf1f6;
-            color: #68758a;
         }
 
         .empty {
+
             text-align: center;
+
             color: #8792a5;
+
             padding: 35px;
+
         }
 
         .coming-soon {
+
             text-align: center;
+
             padding: 70px 20px;
+
             color: #7b8798;
+
         }
 
         .coming-soon h2 {
+
             color: #075ebd;
+
             margin-bottom: 8px;
+
         }
 
-        /* ADMIN */
+        /* =========================
+           ADMIN
+        ========================= */
 
         .admin-title {
+
             display: flex;
+
             align-items: center;
+
             gap: 10px;
+
         }
 
         .admin-label {
+
             background: #075ebd;
+
             color: white;
+
             padding: 5px 9px;
+
             border-radius: 20px;
+
             font-size: 11px;
+
         }
 
-        @media(max-width: 1000px) {
+        .badge {
+
+            display: inline-block;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+        }
+
+        .badge-employee {
+
+            background: #edf1f6;
+
+            color: #68758a;
+
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width:1000px) {
+
             .cards {
-                grid-template-columns: repeat(2, 1fr);
+
+                grid-template-columns:
+                    repeat(2,1fr);
+
             }
+
         }
 
-        @media(max-width: 700px) {
+        @media(max-width:700px) {
+
             .sidebar {
+
                 width: 100%;
+
                 min-height: auto;
+
                 position: relative;
+
             }
 
             .sidebar-bottom {
+
                 position: relative;
+
                 left: auto;
+
                 right: auto;
+
                 bottom: auto;
+
                 margin-top: 20px;
+
             }
 
             .main {
+
                 margin-left: 0;
+
                 padding: 18px;
+
             }
 
             .cards {
-                grid-template-columns: 1fr;
+
+                grid-template-columns:
+                    1fr;
+
             }
 
             .form-grid {
-                grid-template-columns: 1fr;
+
+                grid-template-columns:
+                    1fr;
+
             }
+
         }
+
     </style>
+
 </head>
 
 <body>
 
-<!-- LOGIN -->
+<!-- =========================
+     LOGIN
+========================= -->
 
 <div id="loginPage">
 
     <div class="login-box">
 
         <div class="login-logo">
-            <h1>Luma Beach Bar</h1>
-            <p>Gestionale Fatturato</p>
+
+            <img
+                src="logo.png"
+                alt="Logo Luma Beach Bar"
+            >
+
+            <h1>
+                Luma Beach Bar
+            </h1>
+
+            <p>
+                Gestionale Fatturato
+            </p>
+
         </div>
 
-        <div id="loginError" class="error"></div>
+        <div
+            id="loginError"
+            class="error"
+        ></div>
 
         <div class="input-group">
-            <label>Username</label>
+
+            <label>
+                Username
+            </label>
+
             <input
                 id="username"
                 type="text"
                 placeholder="Inserisci username"
             >
+
         </div>
 
         <div class="input-group">
-            <label>Password</label>
+
+            <label>
+                Password
+            </label>
+
             <input
                 id="password"
                 type="password"
                 placeholder="Inserisci password"
             >
+
         </div>
 
-        <button class="login-btn" onclick="login()">
+        <button
+            class="login-btn"
+            onclick="login()"
+        >
+
             ACCEDI
+
         </button>
 
     </div>
 
 </div>
 
-<!-- APP -->
+
+<!-- =========================
+     APP
+========================= -->
 
 <div id="app">
 
     <aside class="sidebar">
 
-        <h2>Luma Beach Bar</h2>
-        <div class="sidebar-subtitle">
-            Gestionale aziendale
+        <div class="sidebar-logo">
+
+            <img
+                src="logo.png"
+                alt="Luma Beach Bar"
+            >
+
+            <h2>
+                Luma Beach Bar
+            </h2>
+
+            <p>
+                Gestionale aziendale
+            </p>
+
         </div>
 
         <div
             class="menu-item active"
-            onclick="showPage('dashboard', this)"
+            onclick="showPage('dashboard',this)"
         >
+
             🏠 Dashboard
+
         </div>
 
         <div
             class="menu-item"
-            onclick="showPage('fatturato', this)"
+            onclick="showPage('fatturato',this)"
         >
+
             💰 Fatturato
+
         </div>
 
         <div
             class="menu-item"
-            onclick="showPage('operazioni', this)"
+            onclick="showPage('operazioni',this)"
         >
+
             🧾 Operazioni
+
         </div>
 
         <div
             class="menu-item"
-            onclick="showPage('classifica', this)"
+            onclick="showPage('classifica',this)"
         >
+
             🏆 Classifica
+
         </div>
 
         <div
             class="menu-item"
-            onclick="showPage('statistiche', this)"
+            onclick="showPage('statistiche',this)"
         >
+
             📊 Statistiche
+
         </div>
 
         <div
             id="adminMenu"
             class="menu-item"
-            onclick="showPage('admin', this)"
+            onclick="showPage('admin',this)"
         >
+
             👑 Pannello Admin
+
         </div>
 
         <div class="sidebar-bottom">
@@ -525,92 +927,133 @@
                 class="logout-btn"
                 onclick="logout()"
             >
+
                 Esci
+
             </button>
 
         </div>
 
     </aside>
 
+
     <main class="main">
 
         <!-- DASHBOARD -->
 
-        <div id="dashboard" class="page active">
+        <div
+            id="dashboard"
+            class="page active"
+        >
 
             <div class="topbar">
-                <h1 id="dashboardTitle">Dashboard</h1>
+
+                <h1 id="dashboardTitle">
+                    Dashboard
+                </h1>
+
                 <p id="dashboardSubtitle">
                     Panoramica del tuo fatturato
                 </p>
+
             </div>
 
             <div class="cards">
 
                 <div class="card">
+
                     <div class="card-title">
                         Fatturato totale
                     </div>
+
                     <div
                         class="card-value"
                         id="totalRevenue"
                     >
                         $0
                     </div>
+
                 </div>
 
                 <div class="card">
+
                     <div class="card-title">
                         Fatturato oggi
                     </div>
+
                     <div
                         class="card-value"
                         id="todayRevenue"
                     >
                         $0
                     </div>
+
                 </div>
 
                 <div class="card">
+
                     <div class="card-title">
                         Fatturato mensile
                     </div>
+
                     <div
                         class="card-value"
                         id="monthRevenue"
                     >
                         $0
                     </div>
+
                 </div>
 
                 <div class="card">
+
                     <div class="card-title">
                         Servizi effettuati
                     </div>
+
                     <div
                         class="card-value"
                         id="serviceCount"
                     >
                         0
                     </div>
+
                 </div>
 
             </div>
 
             <div class="section">
-                <h2>Ultime operazioni</h2>
-                <div id="dashboardOperations"></div>
+
+                <h2>
+                    Ultime operazioni
+                </h2>
+
+                <div
+                    id="dashboardOperations"
+                ></div>
+
             </div>
 
         </div>
 
+
         <!-- FATTURATO -->
 
-        <div id="fatturato" class="page">
+        <div
+            id="fatturato"
+            class="page"
+        >
 
             <div class="topbar">
-                <h1>Inserisci fatturato</h1>
-                <p>Aggiungi un nuovo servizio effettuato</p>
+
+                <h1>
+                    Inserisci fatturato
+                </h1>
+
+                <p>
+                    Aggiungi un nuovo servizio effettuato
+                </p>
+
             </div>
 
             <div class="section">
@@ -618,7 +1061,10 @@
                 <div class="form-grid">
 
                     <div class="input-group">
-                        <label>Importo ($)</label>
+
+                        <label>
+                            Importo ($)
+                        </label>
 
                         <input
                             id="amount"
@@ -627,12 +1073,17 @@
                             step="0.01"
                             placeholder="Es. 250"
                         >
+
                     </div>
 
                     <div class="input-group">
-                        <label>Categoria</label>
+
+                        <label>
+                            Categoria
+                        </label>
 
                         <select id="category">
+
                             <option value="Cibo">
                                 Cibo
                             </option>
@@ -640,14 +1091,18 @@
                             <option value="Antistress">
                                 Antistress
                             </option>
+
                         </select>
+
                     </div>
 
                     <button
                         class="add-btn"
                         onclick="addRevenue()"
                     >
+
                         + Aggiungi
+
                     </button>
 
                 </div>
@@ -656,46 +1111,79 @@
 
         </div>
 
+
         <!-- OPERAZIONI -->
 
-        <div id="operazioni" class="page">
+        <div
+            id="operazioni"
+            class="page"
+        >
 
             <div class="topbar">
-                <h1>Operazioni</h1>
+
+                <h1>
+                    Operazioni
+                </h1>
 
                 <p id="operationsSubtitle">
                     Storico completo del tuo fatturato
                 </p>
+
             </div>
 
             <div class="section">
-                <div id="operationsList"></div>
+
+                <div
+                    id="operationsList"
+                ></div>
+
             </div>
 
         </div>
+
 
         <!-- CLASSIFICA -->
 
-        <div id="classifica" class="page">
+        <div
+            id="classifica"
+            class="page"
+        >
 
             <div class="topbar">
-                <h1>Classifica</h1>
-                <p>Classifica per fatturato</p>
+
+                <h1>
+                    Classifica
+                </h1>
+
+                <p>
+                    Classifica per fatturato
+                </p>
+
             </div>
 
             <div class="section">
-                <div id="rankingList"></div>
+
+                <div
+                    id="rankingList"
+                ></div>
+
             </div>
 
         </div>
 
+
         <!-- STATISTICHE -->
 
-        <div id="statistiche" class="page">
+        <div
+            id="statistiche"
+            class="page"
+        >
 
             <div class="section coming-soon">
 
-                <h2>📊 Statistiche</h2>
+                <h2>
+                    📊 Statistiche
+                </h2>
 
                 <p>
                     I grafici verranno aggiunti nel prossimo passaggio.
@@ -705,15 +1193,21 @@
 
         </div>
 
+
         <!-- ADMIN -->
 
-        <div id="admin" class="page">
+        <div
+            id="admin"
+            class="page"
+        >
 
             <div class="topbar">
 
                 <div class="admin-title">
 
-                    <h1>Pannello Amministratore</h1>
+                    <h1>
+                        Pannello Amministratore
+                    </h1>
 
                     <span class="admin-label">
                         ADMIN
@@ -730,6 +1224,7 @@
             <div class="cards">
 
                 <div class="card admin-card">
+
                     <div class="card-title">
                         Fatturato aziendale
                     </div>
@@ -740,9 +1235,11 @@
                     >
                         $0
                     </div>
+
                 </div>
 
                 <div class="card admin-card">
+
                     <div class="card-title">
                         Fatturato oggi
                     </div>
@@ -753,9 +1250,11 @@
                     >
                         $0
                     </div>
+
                 </div>
 
                 <div class="card admin-card">
+
                     <div class="card-title">
                         Numero operazioni
                     </div>
@@ -766,9 +1265,11 @@
                     >
                         0
                     </div>
+
                 </div>
 
                 <div class="card admin-card">
+
                     <div class="card-title">
                         Dipendenti
                     </div>
@@ -779,23 +1280,32 @@
                     >
                         0
                     </div>
+
                 </div>
 
             </div>
 
             <div class="section">
 
-                <h2>Fatturato per dipendente</h2>
+                <h2>
+                    Fatturato per dipendente
+                </h2>
 
-                <div id="adminEmployees"></div>
+                <div
+                    id="adminEmployees"
+                ></div>
 
             </div>
 
             <div class="section">
 
-                <h2>Tutte le operazioni</h2>
+                <h2>
+                    Tutte le operazioni
+                </h2>
 
-                <div id="adminOperations"></div>
+                <div
+                    id="adminOperations"
+                ></div>
 
             </div>
 
@@ -805,26 +1315,42 @@
 
 </div>
 
+
 <script>
 
+/* =========================
+   SUPABASE
+========================= */
+
 const SUPABASE_URL =
-    "https://gjpntaritunuxqaepypb.supabase.co";
+"https://gjpntaritunuxqaepypb.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_FqBIxnWIQU2NwyU85xZ-Mg_gvTLEyt4";
+"sb_publishable_FqBIxnWIQU2NwyU85xZ-Mg_gvTLEyt4";
 
 const supabaseClient =
-    supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+/* =========================
+   DATI
+========================= */
 
 let currentUser = null;
+
 let currentProfile = null;
+
 let revenues = [];
+
 let profiles = [];
 
-/* LOGIN */
+
+/* =========================
+   LOGIN
+========================= */
 
 async function login() {
 
@@ -849,16 +1375,22 @@ async function login() {
         );
 
         return;
+
     }
 
     const email =
-        username + "@luma.local";
+        username +
+        "@luma.local";
 
-    const { data, error } =
-        await supabaseClient.auth
+    const {data,error} =
+        await supabaseClient
+        .auth
         .signInWithPassword({
-            email,
-            password
+
+            email: email,
+
+            password: password
+
         });
 
     if (error) {
@@ -870,19 +1402,26 @@ async function login() {
         );
 
         return;
+
     }
 
-    currentUser = data.user;
+    currentUser =
+        data.user;
 
     await openApp();
+
 }
 
-/* SESSIONE */
+
+/* =========================
+   SESSIONE
+========================= */
 
 async function checkSession() {
 
-    const { data } =
-        await supabaseClient.auth
+    const {data} =
+        await supabaseClient
+        .auth
         .getSession();
 
     if (
@@ -899,37 +1438,57 @@ async function checkSession() {
     } else {
 
         showLogin();
+
     }
+
 }
 
-/* APRI APP */
+
+/* =========================
+   APRI APP
+========================= */
 
 async function openApp() {
 
-    document.getElementById(
-        "loginPage"
-    ).style.display = "none";
+    document
+    .getElementById("loginPage")
+    .style.display =
+    "none";
 
-    document.getElementById(
-        "app"
-    ).style.display = "block";
+    document
+    .getElementById("app")
+    .style.display =
+    "block";
 
     await loadProfile();
 
     await loadData();
 
     configureInterface();
+
 }
 
-/* PROFILO */
+
+/* =========================
+   PROFILO
+========================= */
 
 async function loadProfile() {
 
-    const { data, error } =
+    const {data,error} =
         await supabaseClient
+
         .from("profiles")
-        .select("id, username, role")
-        .eq("id", currentUser.id)
+
+        .select(
+            "id, username, role"
+        )
+
+        .eq(
+            "id",
+            currentUser.id
+        )
+
         .single();
 
     if (error) {
@@ -940,31 +1499,45 @@ async function loadProfile() {
         );
 
         return;
+
     }
 
-    currentProfile = data;
+    currentProfile =
+        data;
 
-    document.getElementById(
+    document
+    .getElementById(
         "currentUsername"
-    ).textContent =
-        "👤 " + data.username;
+    )
+    .textContent =
+        "👤 " +
+        data.username;
 
-    document.getElementById(
+    document
+    .getElementById(
         "currentRole"
-    ).textContent =
+    )
+    .textContent =
         data.role === "admin"
         ? "Amministratore"
         : "Dipendente";
+
 }
 
-/* CARICAMENTO DATI */
+
+/* =========================
+   DATI
+========================= */
 
 async function loadData() {
 
     if (!currentProfile)
         return;
 
-    if (currentProfile.role === "admin") {
+    if (
+        currentProfile.role ===
+        "admin"
+    ) {
 
         await loadAdminProfiles();
 
@@ -973,6 +1546,7 @@ async function loadData() {
         profiles = [
             currentProfile
         ];
+
     }
 
     await loadRevenues();
@@ -984,21 +1558,32 @@ async function loadData() {
     renderRanking();
 
     if (
-        currentProfile.role === "admin"
+        currentProfile.role ===
+        "admin"
     ) {
 
         renderAdmin();
+
     }
+
 }
 
-/* PROFILI ADMIN */
+
+/* =========================
+   PROFILI ADMIN
+========================= */
 
 async function loadAdminProfiles() {
 
-    const { data, error } =
+    const {data,error} =
         await supabaseClient
+
         .from("profiles")
-        .select("id, username, role")
+
+        .select(
+            "id, username, role"
+        )
+
         .order("username");
 
     if (error) {
@@ -1011,42 +1596,57 @@ async function loadAdminProfiles() {
         profiles = [];
 
         return;
+
     }
 
-    profiles = data || [];
+    profiles =
+        data || [];
+
 }
 
-/* FATTURATO */
+
+/* =========================
+   CARICA FATTURATO
+========================= */
 
 async function loadRevenues() {
 
-    const { data, error } =
+    const {data,error} =
         await supabaseClient
+
         .from("Revenues")
+
         .select("*")
+
         .order(
             "created_at",
             {
-                ascending: false
+                ascending:false
             }
         );
 
     if (error) {
 
         console.error(
-            "Errore caricamento fatturato:",
+            "Errore caricamento:",
             error
         );
 
         revenues = [];
 
         return;
+
     }
 
-    revenues = data || [];
+    revenues =
+        data || [];
+
 }
 
-/* AGGIUNGI */
+
+/* =========================
+   AGGIUNGI
+========================= */
 
 async function addRevenue() {
 
@@ -1055,14 +1655,20 @@ async function addRevenue() {
 
     const amount =
         parseFloat(
+
             document
-            .getElementById("amount")
+            .getElementById(
+                "amount"
+            )
             .value
+
         );
 
     const category =
         document
-        .getElementById("category")
+        .getElementById(
+            "category"
+        )
         .value;
 
     if (
@@ -1075,17 +1681,29 @@ async function addRevenue() {
         );
 
         return;
+
     }
 
-    const { error } =
+    const {error} =
         await supabaseClient
+
         .from("Revenues")
+
         .insert([
+
             {
-                amount,
-                category,
-                user_id: currentUser.id
+
+                amount:
+                    amount,
+
+                category:
+                    category,
+
+                user_id:
+                    currentUser.id
+
             }
+
         ]);
 
     if (error) {
@@ -1097,22 +1715,44 @@ async function addRevenue() {
         );
 
         return;
+
     }
 
-    document.getElementById(
+    document
+    .getElementById(
         "amount"
-    ).value = "";
+    )
+    .value =
+    "";
 
     await loadData();
 
     alert(
         "Fatturato aggiunto!"
     );
+
 }
 
-/* ELIMINA */
+
+/* =========================
+   ELIMINA SOLO ADMIN
+========================= */
 
 async function deleteRevenue(id) {
+
+    if (
+        !currentProfile ||
+        currentProfile.role !==
+        "admin"
+    ) {
+
+        alert(
+            "Solo l'amministratore può eliminare una fattura."
+        );
+
+        return;
+
+    }
 
     const confirmDelete =
         confirm(
@@ -1122,134 +1762,183 @@ async function deleteRevenue(id) {
     if (!confirmDelete)
         return;
 
-    const { error } =
+    const {error} =
         await supabaseClient
+
         .from("Revenues")
+
         .delete()
-        .eq("id", id);
+
+        .eq(
+            "id",
+            id
+        );
 
     if (error) {
 
         console.error(error);
 
         alert(
-            "Non puoi eliminare questa operazione."
+            "Errore durante l'eliminazione."
         );
 
         return;
+
     }
 
     await loadData();
+
 }
 
-/* INTERFACCIA RUOLI */
+
+/* =========================
+   INTERFACCIA
+========================= */
 
 function configureInterface() {
 
     const isAdmin =
         currentProfile &&
-        currentProfile.role === "admin";
+        currentProfile.role ===
+        "admin";
 
-    document.getElementById(
+    document
+    .getElementById(
         "adminMenu"
-    ).style.display =
+    )
+    .style.display =
         isAdmin
         ? "block"
         : "none";
 
-    document.getElementById(
+    document
+    .getElementById(
         "dashboardTitle"
-    ).textContent =
+    )
+    .textContent =
         isAdmin
         ? "Dashboard Aziendale"
         : "Dashboard";
 
-    document.getElementById(
+    document
+    .getElementById(
         "dashboardSubtitle"
-    ).textContent =
+    )
+    .textContent =
         isAdmin
         ? "Panoramica generale del Luma Beach Bar"
         : "Panoramica del tuo fatturato";
 
-    document.getElementById(
-        "operationsSubtitle"
-    ).textContent =
-        isAdmin
-        ? "Storico delle operazioni visibili"
-        : "Storico completo del tuo fatturato";
 }
 
-/* DASHBOARD */
+
+/* =========================
+   DASHBOARD
+========================= */
 
 function updateDashboard() {
 
     let total = 0;
+
     let todayTotal = 0;
+
     let monthTotal = 0;
 
     const today =
         new Date();
 
-    revenues.forEach(item => {
+    revenues.forEach(
+        item => {
 
-        const amount =
-            Number(item.amount);
+            const amount =
+                Number(
+                    item.amount
+                );
 
-        const date =
-            new Date(
-                item.created_at
-            );
+            const date =
+                new Date(
+                    item.created_at
+                );
 
-        total += amount;
+            total +=
+                amount;
 
-        if (
-            sameDay(
-                date,
-                today
-            )
-        ) {
-            todayTotal += amount;
+            if (
+                sameDay(
+                    date,
+                    today
+                )
+            ) {
+
+                todayTotal +=
+                    amount;
+
+            }
+
+            if (
+                date.getMonth() ===
+                    today.getMonth()
+                &&
+                date.getFullYear() ===
+                    today.getFullYear()
+            ) {
+
+                monthTotal +=
+                    amount;
+
+            }
+
         }
+    );
 
-        if (
-            date.getMonth() ===
-                today.getMonth() &&
-            date.getFullYear() ===
-                today.getFullYear()
-        ) {
-            monthTotal += amount;
-        }
-    });
-
-    document.getElementById(
+    document
+    .getElementById(
         "totalRevenue"
-    ).textContent =
-        formatMoney(total);
+    )
+    .textContent =
+        formatMoney(
+            total
+        );
 
-    document.getElementById(
+    document
+    .getElementById(
         "todayRevenue"
-    ).textContent =
-        formatMoney(todayTotal);
+    )
+    .textContent =
+        formatMoney(
+            todayTotal
+        );
 
-    document.getElementById(
+    document
+    .getElementById(
         "monthRevenue"
-    ).textContent =
-        formatMoney(monthTotal);
+    )
+    .textContent =
+        formatMoney(
+            monthTotal
+        );
 
-    document.getElementById(
+    document
+    .getElementById(
         "serviceCount"
-    ).textContent =
+    )
+    .textContent =
         revenues.length;
 
     renderDashboardOperations();
+
 }
 
-/* ULTIME OPERAZIONI */
+
+/* =========================
+   ULTIME OPERAZIONI
+========================= */
 
 function renderDashboardOperations() {
 
     const container =
-        document.getElementById(
+        document
+        .getElementById(
             "dashboardOperations"
         );
 
@@ -1259,86 +1948,122 @@ function renderDashboardOperations() {
             '<div class="empty">Nessuna operazione presente.</div>';
 
         return;
+
     }
 
     const recent =
-        revenues.slice(0, 5);
+        revenues.slice(
+            0,
+            5
+        );
 
     const showUser =
-        currentProfile.role === "admin";
+        currentProfile.role ===
+        "admin";
 
     let html = `
+
         <div class="table-wrapper">
+
         <table>
-            <thead>
-                <tr>
-                    ${showUser
-                        ? "<th>Utente</th>"
-                        : ""
-                    }
-                    <th>Data</th>
-                    <th>Categoria</th>
-                    <th>Importo</th>
-                </tr>
-            </thead>
-            <tbody>
+
+        <thead>
+
+        <tr>
+
+        ${
+            showUser
+            ? "<th>Utente</th>"
+            : ""
+        }
+
+        <th>Data</th>
+
+        <th>Categoria</th>
+
+        <th>Importo</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
     `;
 
-    recent.forEach(item => {
+    recent.forEach(
+        item => {
 
-        html += `
+            html += `
+
             <tr>
 
-                ${showUser
-                    ? `
-                    <td>
-                        ${escapeHTML(
-                            getUsername(
-                                item.user_id
-                            )
-                        )}
-                    </td>
-                    `
-                    : ""
-                }
-
-                <td>
-                    ${formatDate(
-                        item.created_at
-                    )}
-                </td>
-
+            ${
+                showUser
+                ?
+                `
                 <td>
                     ${escapeHTML(
-                        item.category
+                        getUsername(
+                            item.user_id
+                        )
                     )}
                 </td>
+                `
+                :
+                ""
+            }
 
-                <td>
-                    ${formatMoney(
-                        item.amount
-                    )}
-                </td>
+            <td>
+                ${formatDate(
+                    item.created_at
+                )}
+            </td>
+
+            <td>
+                ${escapeHTML(
+                    item.category
+                )}
+            </td>
+
+            <td>
+                ${formatMoney(
+                    item.amount
+                )}
+            </td>
 
             </tr>
-        `;
-    });
+
+            `;
+
+        }
+    );
 
     html += `
-            </tbody>
+
+        </tbody>
+
         </table>
+
         </div>
+
     `;
 
-    container.innerHTML = html;
+    container.innerHTML =
+        html;
+
 }
 
-/* OPERAZIONI */
+
+/* =========================
+   OPERAZIONI
+========================= */
 
 function renderOperations() {
 
     const container =
-        document.getElementById(
+        document
+        .getElementById(
             "operationsList"
         );
 
@@ -1348,112 +2073,141 @@ function renderOperations() {
             '<div class="empty">Nessuna operazione presente.</div>';
 
         return;
+
     }
 
-    const showUser =
-        currentProfile.role === "admin";
+    const isAdmin =
+        currentProfile.role ===
+        "admin";
 
     let html = `
-        <div class="table-wrapper">
 
-        <table>
+    <div class="table-wrapper">
 
-            <thead>
-                <tr>
+    <table>
 
-                    ${showUser
-                        ? "<th>Utente</th>"
-                        : ""
-                    }
+    <thead>
 
-                    <th>Data</th>
-                    <th>Categoria</th>
-                    <th>Importo</th>
-                    <th></th>
+    <tr>
 
-                </tr>
-            </thead>
+    ${
+        isAdmin
+        ? "<th>Utente</th>"
+        : ""
+    }
 
-            <tbody>
+    <th>Data</th>
+
+    <th>Categoria</th>
+
+    <th>Importo</th>
+
+    ${
+        isAdmin
+        ? "<th>Azioni</th>"
+        : ""
+    }
+
+    </tr>
+
+    </thead>
+
+    <tbody>
+
     `;
 
-    revenues.forEach(item => {
+    revenues.forEach(
+        item => {
 
-        const canDelete =
-            item.user_id ===
-            currentUser.id;
+            html += `
 
-        html += `
             <tr>
 
-                ${showUser
-                    ? `
-                    <td>
-                        ${escapeHTML(
-                            getUsername(
-                                item.user_id
-                            )
-                        )}
-                    </td>
-                    `
-                    : ""
-                }
-
-                <td>
-                    ${formatDate(
-                        item.created_at
-                    )}
-                </td>
-
+            ${
+                isAdmin
+                ?
+                `
                 <td>
                     ${escapeHTML(
-                        item.category
+                        getUsername(
+                            item.user_id
+                        )
                     )}
                 </td>
+                `
+                :
+                ""
+            }
 
+            <td>
+                ${formatDate(
+                    item.created_at
+                )}
+            </td>
+
+            <td>
+                ${escapeHTML(
+                    item.category
+                )}
+            </td>
+
+            <td>
+                ${formatMoney(
+                    item.amount
+                )}
+            </td>
+
+            ${
+                isAdmin
+                ?
+                `
                 <td>
-                    ${formatMoney(
-                        item.amount
-                    )}
-                </td>
 
-                <td>
-
-                    ${
-                        canDelete
-                        ? `
-                        <button
-                            class="delete-btn"
-                            onclick="deleteRevenue('${item.id}')"
-                        >
-                            Elimina
-                        </button>
-                        `
-                        : ""
-                    }
+                    <button
+                        class="delete-btn"
+                        onclick="deleteRevenue('${item.id}')"
+                    >
+                        Elimina
+                    </button>
 
                 </td>
+                `
+                :
+                ""
+            }
 
             </tr>
-        `;
-    });
+
+            `;
+
+        }
+    );
 
     html += `
-            </tbody>
-        </table>
 
-        </div>
+    </tbody>
+
+    </table>
+
+    </div>
+
     `;
 
-    container.innerHTML = html;
+    container.innerHTML =
+        html;
+
 }
 
-/* CLASSIFICA */
+
+/* =========================
+   CLASSIFICA
+========================= */
 
 function renderRanking() {
 
     const container =
-        document.getElementById(
+        document
+        .getElementById(
             "rankingList"
         );
 
@@ -1463,135 +2217,188 @@ function renderRanking() {
             '<div class="empty">Nessun dato disponibile.</div>';
 
         return;
+
     }
 
     const totals = {};
 
-    revenues.forEach(item => {
+    revenues.forEach(
+        item => {
 
-        const userId =
-            item.user_id;
+            const userId =
+                item.user_id;
 
-        if (!totals[userId]) {
+            if (
+                !totals[
+                    userId
+                ]
+            ) {
 
-            totals[userId] = {
-                userId,
-                total: 0,
-                services: 0
-            };
+                totals[
+                    userId
+                ] = {
+
+                    userId:
+                        userId,
+
+                    total:
+                        0,
+
+                    services:
+                        0
+
+                };
+
+            }
+
+            totals[
+                userId
+            ].total +=
+                Number(
+                    item.amount
+                );
+
+            totals[
+                userId
+            ].services++;
+
         }
-
-        totals[userId].total +=
-            Number(item.amount);
-
-        totals[userId].services++;
-    });
+    );
 
     const ranking =
         Object
         .values(totals)
         .sort(
-            (a, b) =>
-                b.total - a.total
+            (a,b) =>
+                b.total -
+                a.total
         );
 
     let html = `
-        <div class="table-wrapper">
 
-        <table>
+    <div class="table-wrapper">
 
-            <thead>
-                <tr>
-                    <th>Posizione</th>
-                    <th>Utente</th>
-                    <th>Servizi</th>
-                    <th>Fatturato</th>
-                </tr>
-            </thead>
+    <table>
 
-            <tbody>
+    <thead>
+
+    <tr>
+
+    <th>Posizione</th>
+
+    <th>Utente</th>
+
+    <th>Servizi</th>
+
+    <th>Fatturato</th>
+
+    </tr>
+
+    </thead>
+
+    <tbody>
+
     `;
 
     ranking.forEach(
-        (item, index) => {
+        (item,index) => {
 
             html += `
-                <tr>
 
-                    <td>
-                        ${rankingMedal(
-                            index
-                        )}
-                    </td>
+            <tr>
 
-                    <td>
-                        ${escapeHTML(
-                            getUsername(
-                                item.userId
-                            )
-                        )}
-                    </td>
+            <td>
+                ${rankingMedal(
+                    index
+                )}
+            </td>
 
-                    <td>
-                        ${item.services}
-                    </td>
+            <td>
+                ${escapeHTML(
+                    getUsername(
+                        item.userId
+                    )
+                )}
+            </td>
 
-                    <td>
-                        ${formatMoney(
-                            item.total
-                        )}
-                    </td>
+            <td>
+                ${item.services}
+            </td>
 
-                </tr>
+            <td>
+                ${formatMoney(
+                    item.total
+                )}
+            </td>
+
+            </tr>
+
             `;
+
         }
     );
 
     html += `
-            </tbody>
-        </table>
 
-        </div>
+    </tbody>
+
+    </table>
+
+    </div>
+
     `;
 
-    container.innerHTML = html;
+    container.innerHTML =
+        html;
+
 }
 
-/* ADMIN */
+
+/* =========================
+   ADMIN
+========================= */
 
 function renderAdmin() {
 
     if (
         currentProfile.role !==
         "admin"
-    ) {
+    )
         return;
-    }
 
     let total = 0;
+
     let todayTotal = 0;
 
     const today =
         new Date();
 
-    revenues.forEach(item => {
+    revenues.forEach(
+        item => {
 
-        const amount =
-            Number(item.amount);
+            total +=
+                Number(
+                    item.amount
+                );
 
-        total += amount;
+            if (
+                sameDay(
+                    new Date(
+                        item.created_at
+                    ),
+                    today
+                )
+            ) {
 
-        if (
-            sameDay(
-                new Date(
-                    item.created_at
-                ),
-                today
-            )
-        ) {
-            todayTotal += amount;
+                todayTotal +=
+                    Number(
+                        item.amount
+                    );
+
+            }
+
         }
-    });
+    );
 
     const employees =
         profiles.filter(
@@ -1600,37 +2407,54 @@ function renderAdmin() {
                 "employee"
         );
 
-    document.getElementById(
+    document
+    .getElementById(
         "adminTotal"
-    ).textContent =
-        formatMoney(total);
+    )
+    .textContent =
+        formatMoney(
+            total
+        );
 
-    document.getElementById(
+    document
+    .getElementById(
         "adminToday"
-    ).textContent =
-        formatMoney(todayTotal);
+    )
+    .textContent =
+        formatMoney(
+            todayTotal
+        );
 
-    document.getElementById(
+    document
+    .getElementById(
         "adminOperationsCount"
-    ).textContent =
+    )
+    .textContent =
         revenues.length;
 
-    document.getElementById(
+    document
+    .getElementById(
         "adminEmployeesCount"
-    ).textContent =
+    )
+    .textContent =
         employees.length;
 
     renderAdminEmployees();
 
     renderAdminOperations();
+
 }
 
-/* ADMIN DIPENDENTI */
+
+/* =========================
+   ADMIN DIPENDENTI
+========================= */
 
 function renderAdminEmployees() {
 
     const container =
-        document.getElementById(
+        document
+        .getElementById(
             "adminEmployees"
         );
 
@@ -1647,23 +2471,33 @@ function renderAdminEmployees() {
             '<div class="empty">Nessun dipendente presente.</div>';
 
         return;
+
     }
 
     let html = `
-        <div class="table-wrapper">
 
-        <table>
+    <div class="table-wrapper">
 
-            <thead>
-                <tr>
-                    <th>Dipendente</th>
-                    <th>Servizi</th>
-                    <th>Fatturato</th>
-                    <th>Ruolo</th>
-                </tr>
-            </thead>
+    <table>
 
-            <tbody>
+    <thead>
+
+    <tr>
+
+    <th>Dipendente</th>
+
+    <th>Servizi</th>
+
+    <th>Fatturato</th>
+
+    <th>Ruolo</th>
+
+    </tr>
+
+    </thead>
+
+    <tbody>
+
     `;
 
     employees.forEach(
@@ -1678,7 +2512,7 @@ function renderAdminEmployees() {
 
             const total =
                 userRevenues.reduce(
-                    (sum, item) =>
+                    (sum,item) =>
                         sum +
                         Number(
                             item.amount
@@ -1687,53 +2521,69 @@ function renderAdminEmployees() {
                 );
 
             html += `
-                <tr>
 
-                    <td>
-                        ${escapeHTML(
-                            employee.username
-                        )}
-                    </td>
+            <tr>
 
-                    <td>
-                        ${userRevenues.length}
-                    </td>
+            <td>
+                ${escapeHTML(
+                    employee.username
+                )}
+            </td>
 
-                    <td>
-                        ${formatMoney(
-                            total
-                        )}
-                    </td>
+            <td>
+                ${userRevenues.length}
+            </td>
 
-                    <td>
-                        <span
-                            class="badge badge-employee"
-                        >
-                            Dipendente
-                        </span>
-                    </td>
+            <td>
+                ${formatMoney(
+                    total
+                )}
+            </td>
 
-                </tr>
+            <td>
+
+                <span
+                    class="badge badge-employee"
+                >
+
+                    Dipendente
+
+                </span>
+
+            </td>
+
+            </tr>
+
             `;
+
         }
     );
 
     html += `
-            </tbody>
-        </table>
 
-        </div>
+    </tbody>
+
+    </table>
+
+    </div>
+
     `;
 
-    container.innerHTML = html;
+    container.innerHTML =
+        html;
+
 }
 
-/* ADMIN OPERAZIONI */
+
+/* =========================
+   ADMIN OPERAZIONI
+========================= */
 
 function renderAdminOperations() {
 
     const container =
-        document.getElementById(
+        document
+        .getElementById(
             "adminOperations"
         );
 
@@ -1743,131 +2593,205 @@ function renderAdminOperations() {
             '<div class="empty">Nessuna operazione presente.</div>';
 
         return;
+
     }
 
     let html = `
-        <div class="table-wrapper">
 
-        <table>
+    <div class="table-wrapper">
 
-            <thead>
-                <tr>
-                    <th>Dipendente</th>
-                    <th>Data</th>
-                    <th>Categoria</th>
-                    <th>Importo</th>
-                </tr>
-            </thead>
+    <table>
 
-            <tbody>
+    <thead>
+
+    <tr>
+
+    <th>Dipendente</th>
+
+    <th>Data</th>
+
+    <th>Categoria</th>
+
+    <th>Importo</th>
+
+    <th>Azioni</th>
+
+    </tr>
+
+    </thead>
+
+    <tbody>
+
     `;
 
-    revenues.forEach(item => {
+    revenues.forEach(
+        item => {
 
-        html += `
+            html += `
+
             <tr>
 
-                <td>
-                    ${escapeHTML(
-                        getUsername(
-                            item.user_id
-                        )
-                    )}
-                </td>
+            <td>
+                ${escapeHTML(
+                    getUsername(
+                        item.user_id
+                    )
+                )}
+            </td>
 
-                <td>
-                    ${formatDate(
-                        item.created_at
-                    )}
-                </td>
+            <td>
+                ${formatDate(
+                    item.created_at
+                )}
+            </td>
 
-                <td>
-                    ${escapeHTML(
-                        item.category
-                    )}
-                </td>
+            <td>
+                ${escapeHTML(
+                    item.category
+                )}
+            </td>
 
-                <td>
-                    ${formatMoney(
-                        item.amount
-                    )}
-                </td>
+            <td>
+                ${formatMoney(
+                    item.amount
+                )}
+            </td>
+
+            <td>
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteRevenue('${item.id}')"
+                >
+
+                    Elimina
+
+                </button>
+
+            </td>
 
             </tr>
-        `;
-    });
+
+            `;
+
+        }
+    );
 
     html += `
-            </tbody>
-        </table>
 
-        </div>
+    </tbody>
+
+    </table>
+
+    </div>
+
     `;
 
-    container.innerHTML = html;
+    container.innerHTML =
+        html;
+
 }
 
-/* USERNAME DA ID */
 
-function getUsername(userId) {
+/* =========================
+   USERNAME
+========================= */
+
+function getUsername(
+    userId
+) {
 
     const profile =
         profiles.find(
             item =>
-                item.id === userId
+                item.id ===
+                userId
         );
 
     if (profile) {
+
         return profile.username;
+
     }
 
     if (
         currentProfile &&
-        currentProfile.id === userId
+        currentProfile.id ===
+        userId
     ) {
+
         return currentProfile.username;
+
     }
 
     return "Utente";
+
 }
 
-/* LOGOUT */
+
+/* =========================
+   LOGOUT
+========================= */
 
 async function logout() {
 
-    await supabaseClient.auth
-        .signOut();
+    await supabaseClient
+    .auth
+    .signOut();
 
     currentUser = null;
+
     currentProfile = null;
+
     revenues = [];
+
     profiles = [];
 
-    document.getElementById(
+    document
+    .getElementById(
         "username"
-    ).value = "";
+    )
+    .value =
+    "";
 
-    document.getElementById(
+    document
+    .getElementById(
         "password"
-    ).value = "";
+    )
+    .value =
+    "";
 
     showLogin();
+
 }
 
-/* LOGIN PAGE */
+
+/* =========================
+   LOGIN PAGE
+========================= */
 
 function showLogin() {
 
-    document.getElementById(
+    document
+    .getElementById(
         "app"
-    ).style.display = "none";
+    )
+    .style.display =
+        "none";
 
-    document.getElementById(
+    document
+    .getElementById(
         "loginPage"
-    ).style.display = "flex";
+    )
+    .style.display =
+        "flex";
+
 }
 
-/* PAGINE */
+
+/* =========================
+   PAGINE
+========================= */
 
 function showPage(
     pageId,
@@ -1875,45 +2799,64 @@ function showPage(
 ) {
 
     if (
-        pageId === "admin" &&
+        pageId === "admin"
+        &&
         (
-            !currentProfile ||
+            !currentProfile
+            ||
             currentProfile.role !==
             "admin"
         )
-    ) {
+    )
         return;
-    }
 
     document
-        .querySelectorAll(".page")
-        .forEach(
-            page =>
-                page.classList
-                .remove("active")
-        );
+    .querySelectorAll(
+        ".page"
+    )
+    .forEach(
+        page =>
+            page
+            .classList
+            .remove(
+                "active"
+            )
+    );
 
     document
-        .getElementById(pageId)
-        .classList
-        .add("active");
-
-    document
-        .querySelectorAll(
-            ".menu-item"
-        )
-        .forEach(
-            item =>
-                item.classList
-                .remove("active")
-        );
-
-    element.classList.add(
+    .getElementById(
+        pageId
+    )
+    .classList
+    .add(
         "active"
     );
+
+    document
+    .querySelectorAll(
+        ".menu-item"
+    )
+    .forEach(
+        item =>
+            item
+            .classList
+            .remove(
+                "active"
+            )
+    );
+
+    element
+    .classList
+    .add(
+        "active"
+    );
+
 }
 
-/* UTILITY */
+
+/* =========================
+   UTILITY
+========================= */
 
 function sameDay(
     first,
@@ -1921,44 +2864,71 @@ function sameDay(
 ) {
 
     return (
+
         first.getDate() ===
-            second.getDate() &&
+            second.getDate()
+
+        &&
+
         first.getMonth() ===
-            second.getMonth() &&
+            second.getMonth()
+
+        &&
+
         first.getFullYear() ===
             second.getFullYear()
+
     );
+
 }
 
-function formatMoney(value) {
+
+function formatMoney(
+    value
+) {
 
     return "$" +
-        Number(value)
-        .toLocaleString(
-            "en-US",
-            {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 2
-            }
-        );
+
+    Number(value)
+    .toLocaleString(
+        "en-US",
+        {
+            minimumFractionDigits:0,
+            maximumFractionDigits:2
+        }
+    );
+
 }
 
-function formatDate(value) {
+
+function formatDate(
+    value
+) {
 
     return new Date(value)
-        .toLocaleString(
-            "it-IT",
-            {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit"
-            }
-        );
+    .toLocaleString(
+        "it-IT",
+        {
+
+            day:"2-digit",
+
+            month:"2-digit",
+
+            year:"numeric",
+
+            hour:"2-digit",
+
+            minute:"2-digit"
+
+        }
+    );
+
 }
 
-function rankingMedal(index) {
+
+function rankingMedal(
+    index
+) {
 
     if (index === 0)
         return "🥇 1°";
@@ -1969,13 +2939,20 @@ function rankingMedal(index) {
     if (index === 2)
         return "🥉 3°";
 
-    return (index + 1) + "°";
+    return (
+        index + 1
+    ) + "°";
+
 }
 
-function escapeHTML(text) {
+
+function escapeHTML(
+    text
+) {
 
     const div =
-        document.createElement(
+        document
+        .createElement(
             "div"
         );
 
@@ -1983,14 +2960,17 @@ function escapeHTML(text) {
         text || "";
 
     return div.innerHTML;
+
 }
+
 
 function showLoginError(
     message
 ) {
 
     const box =
-        document.getElementById(
+        document
+        .getElementById(
             "loginError"
         );
 
@@ -1999,40 +2979,55 @@ function showLoginError(
 
     box.style.display =
         "block";
+
 }
+
 
 function hideLoginError() {
 
-    document.getElementById(
+    document
+    .getElementById(
         "loginError"
-    ).style.display =
+    )
+    .style.display =
         "none";
+
 }
 
-/* ENTER */
+
+/* =========================
+   INVIO CON ENTER
+========================= */
 
 document
-    .getElementById(
-        "password"
-    )
-    .addEventListener(
-        "keydown",
-        event => {
+.getElementById(
+    "password"
+)
+.addEventListener(
+    "keydown",
+    event => {
 
-            if (
-                event.key ===
-                "Enter"
-            ) {
-                login();
-            }
+        if (
+            event.key ===
+            "Enter"
+        ) {
+
+            login();
+
         }
-    );
 
-/* AVVIO */
+    }
+);
+
+
+/* =========================
+   AVVIO
+========================= */
 
 checkSession();
 
 </script>
 
 </body>
+
 </html>
