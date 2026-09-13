@@ -1,429 +1,756 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Luma Beach Bar - Gestionale</title>
+<title>Luma Beach Bar - Gestionale</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-        body {
-            background: #f4f8fc;
-            color: #172b4d;
-        }
+body {
+    background: #f4f8fc;
+    color: #172b4d;
+}
 
-        .layout {
-            display: flex;
-            min-height: 100vh;
-        }
+.layout {
+    min-height: 100vh;
+}
 
-        /* SIDEBAR */
+.sidebar {
+    width: 250px;
+    background: white;
+    border-right: 1px solid #e1eaf2;
+    padding: 25px 15px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
 
-        .sidebar {
-            width: 250px;
-            background: #ffffff;
-            border-right: 1px solid #e1eaf2;
-            padding: 25px 15px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-        }
+.brand {
+    padding: 10px 15px 30px;
+}
 
-        .brand {
-            padding: 10px 15px 30px;
-        }
+.brand h1 {
+    color: #087ff5;
+    font-size: 23px;
+}
 
-        .brand h1 {
-            color: #087ff5;
-            font-size: 24px;
-        }
+.brand span {
+    color: #7b8ca5;
+    font-size: 12px;
+}
 
-        .brand span {
-            color: #7b8ca5;
-            font-size: 12px;
-        }
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
 
-        .menu {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
+.menu button {
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    color: #63748b;
+    padding: 13px 15px;
+    border-radius: 10px;
+    font-size: 15px;
+}
 
-        .menu a {
-            text-decoration: none;
-            color: #63748b;
-            padding: 13px 15px;
-            border-radius: 10px;
-            font-size: 15px;
-            transition: 0.2s;
-        }
+.menu button:hover,
+.menu button.active {
+    background: #e9f4ff;
+    color: #087ff5;
+}
 
-        .menu a:hover,
-        .menu a.active {
-            background: #e9f4ff;
-            color: #087ff5;
-        }
+.main {
+    margin-left: 250px;
+    padding: 30px;
+}
 
-        /* MAIN */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
 
-        .main {
-            margin-left: 250px;
-            width: calc(100% - 250px);
-            padding: 30px;
-        }
+.welcome h2 {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
 
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
+.welcome p {
+    color: #7b8ca5;
+}
 
-        .welcome h2 {
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
+.user {
+    background: white;
+    border: 1px solid #e1eaf2;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: bold;
+}
 
-        .welcome p {
-            color: #7b8ca5;
-        }
+.page {
+    display: none;
+}
 
-        .user {
-            background: white;
-            border: 1px solid #e1eaf2;
-            padding: 10px 16px;
-            border-radius: 12px;
-            font-weight: bold;
-        }
+.page.active {
+    display: block;
+}
 
-        /* CARDS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 25px;
-        }
+.card {
+    background: white;
+    border: 1px solid #e1eaf2;
+    border-radius: 15px;
+    padding: 22px;
+    box-shadow: 0 5px 20px rgba(20,80,130,.04);
+}
 
-        .card {
-            background: white;
-            border: 1px solid #e1eaf2;
-            border-radius: 15px;
-            padding: 22px;
-            box-shadow: 0 5px 20px rgba(20, 80, 130, 0.04);
-        }
+.card-title {
+    color: #7b8ca5;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
 
-        .card-title {
-            color: #7b8ca5;
-            font-size: 14px;
-            margin-bottom: 12px;
-        }
+.card-value {
+    font-size: 28px;
+    font-weight: bold;
+}
 
-        .card-value {
-            font-size: 28px;
-            font-weight: bold;
-            color: #172b4d;
-        }
+.blue {
+    color: #087ff5;
+}
 
-        .card-blue {
-            color: #087ff5;
-        }
+.content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
 
-        /* CONTENT */
+.panel {
+    background: white;
+    border: 1px solid #e1eaf2;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
 
-        .content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-        }
+.panel h3 {
+    margin-bottom: 20px;
+}
 
-        .panel {
-            background: white;
-            border: 1px solid #e1eaf2;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 20px rgba(20, 80, 130, 0.04);
-        }
+.form {
+    display: grid;
+    gap: 15px;
+}
 
-        .panel h3 {
-            margin-bottom: 20px;
-        }
+label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #52657d;
+}
 
-        /* CHART */
+input {
+    width: 100%;
+    margin-top: 7px;
+    padding: 13px;
+    border: 1px solid #d9e3ed;
+    border-radius: 9px;
+    outline: none;
+    font-size: 15px;
+}
 
-        .chart {
-            height: 250px;
-            display: flex;
-            align-items: end;
-            gap: 12px;
-            padding-top: 20px;
-        }
+input:focus {
+    border-color: #087ff5;
+}
 
-        .bar {
-            flex: 1;
-            background: #1688f8;
-            border-radius: 7px 7px 0 0;
-            min-height: 10px;
-        }
+.primary {
+    border: none;
+    background: #087ff5;
+    color: white;
+    padding: 14px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+}
 
-        .bar:nth-child(1) { height: 25%; }
-        .bar:nth-child(2) { height: 45%; }
-        .bar:nth-child(3) { height: 35%; }
-        .bar:nth-child(4) { height: 65%; }
-        .bar:nth-child(5) { height: 50%; }
-        .bar:nth-child(6) { height: 80%; }
-        .bar:nth-child(7) { height: 60%; }
+.primary:hover {
+    background: #066dcc;
+}
 
-        .days {
-            display: flex;
-            justify-content: space-between;
-            color: #8a9ab0;
-            font-size: 12px;
-            margin-top: 8px;
-        }
+.table-container {
+    overflow-x: auto;
+}
 
-        /* RANKING */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-        .ranking-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid #edf2f7;
-        }
+th,
+td {
+    text-align: left;
+    padding: 14px 10px;
+    border-bottom: 1px solid #edf2f7;
+}
 
-        .ranking-item:last-child {
-            border-bottom: none;
-        }
+th {
+    color: #7b8ca5;
+    font-size: 13px;
+}
 
-        .person {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+td {
+    font-size: 14px;
+}
 
-        .avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: #e9f4ff;
-            color: #087ff5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
+.amount {
+    color: #087ff5;
+    font-weight: bold;
+}
 
-        .amount {
-            font-weight: bold;
-            color: #087ff5;
-        }
+.delete {
+    border: none;
+    background: #ffecec;
+    color: #e33b3b;
+    padding: 7px 10px;
+    border-radius: 7px;
+    cursor: pointer;
+}
 
-        /* RESPONSIVE */
+.empty {
+    text-align: center;
+    padding: 30px;
+    color: #8a9ab0;
+}
 
-        @media (max-width: 1000px) {
-            .cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
+@media (max-width: 1000px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
-            .content {
-                grid-template-columns: 1fr;
-            }
-        }
+    .content {
+        grid-template-columns: 1fr;
+    }
+}
 
-        @media (max-width: 700px) {
-            .sidebar {
-                width: 70px;
-                padding: 15px 8px;
-            }
+@media (max-width: 700px) {
+    .sidebar {
+        width: 70px;
+        padding: 15px 8px;
+    }
 
-            .brand h1 {
-                font-size: 0;
-            }
+    .brand h1 {
+        font-size: 0;
+    }
 
-            .brand h1::after {
-                content: "L";
-                font-size: 25px;
-            }
+    .brand h1::after {
+        content: "L";
+        font-size: 25px;
+    }
 
-            .brand span {
-                display: none;
-            }
+    .brand span {
+        display: none;
+    }
 
-            .menu a {
-                font-size: 0;
-                text-align: center;
-            }
+    .menu button {
+        font-size: 0;
+        text-align: center;
+    }
 
-            .menu a::first-letter {
-                font-size: 20px;
-            }
+    .menu button::first-letter {
+        font-size: 20px;
+    }
 
-            .main {
-                margin-left: 70px;
-                width: calc(100% - 70px);
-                padding: 20px;
-            }
+    .main {
+        margin-left: 70px;
+        padding: 20px;
+    }
 
-            .cards {
-                grid-template-columns: 1fr;
-            }
+    .cards {
+        grid-template-columns: 1fr;
+    }
 
-            .topbar {
-                align-items: flex-start;
-                gap: 15px;
-                flex-direction: column;
-            }
-        }
-    </style>
+    .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+</style>
 </head>
 
 <body>
 
 <div class="layout">
 
-    <!-- SIDEBAR -->
+<aside class="sidebar">
 
-    <aside class="sidebar">
+    <div class="brand">
+        <h1>Luma Beach Bar</h1>
+        <span>Gestionale FiveM</span>
+    </div>
 
-        <div class="brand">
-            <h1>Luma Beach Bar</h1>
-            <span>Gestionale FiveM</span>
+    <nav class="menu">
+        <button class="active" onclick="showPage('dashboard', this)">
+            🏠 Dashboard
+        </button>
+
+        <button onclick="showPage('fatturato', this)">
+            💰 Fatturato
+        </button>
+
+        <button onclick="showPage('operazioni', this)">
+            🧾 Operazioni
+        </button>
+
+        <button onclick="alert('Classifica disponibile nel prossimo aggiornamento')">
+            🏆 Classifica
+        </button>
+
+        <button onclick="alert('Statistiche disponibili nel prossimo aggiornamento')">
+            📊 Statistiche
+        </button>
+
+        <button onclick="alert('Profilo disponibile nel prossimo aggiornamento')">
+            👤 Profilo
+        </button>
+
+        <button onclick="alert('Impostazioni disponibili nel prossimo aggiornamento')">
+            ⚙️ Impostazioni
+        </button>
+    </nav>
+
+</aside>
+
+<main class="main">
+
+<div class="topbar">
+    <div class="welcome">
+        <h2 id="pageTitle">Dashboard</h2>
+        <p>Gestionale personale Luma Beach Bar</p>
+    </div>
+
+    <div class="user">
+        👤 Utente
+    </div>
+</div>
+
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="page active">
+
+    <div class="cards">
+
+        <div class="card">
+            <div class="card-title">Fatturato totale</div>
+            <div class="card-value blue" id="totalRevenue">$0</div>
         </div>
 
-        <nav class="menu">
-            <a href="#" class="active">🏠 Dashboard</a>
-            <a href="#">💰 Fatturato</a>
-            <a href="#">🧾 Operazioni</a>
-            <a href="#">🏆 Classifica</a>
-            <a href="#">📊 Statistiche</a>
-            <a href="#">👤 Profilo</a>
-            <a href="#">⚙️ Impostazioni</a>
-            <a href="#">🚪 Esci</a>
-        </nav>
+        <div class="card">
+            <div class="card-title">Fatturato settimanale</div>
+            <div class="card-value" id="weeklyRevenue">$0</div>
+        </div>
 
-    </aside>
+        <div class="card">
+            <div class="card-title">Fatturato mensile</div>
+            <div class="card-value" id="monthlyRevenue">$0</div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Servizi effettuati</div>
+            <div class="card-value" id="serviceCount">0</div>
+        </div>
+
+    </div>
+
+    <div class="panel">
+        <h3>📋 Ultime operazioni</h3>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Descrizione</th>
+                        <th>Importo</th>
+                    </tr>
+                </thead>
+
+                <tbody id="dashboardOperations"></tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
 
 
-    <!-- MAIN -->
+<!-- FATTURATO -->
 
-    <main class="main">
+<section id="fatturato" class="page">
 
-        <div class="topbar">
+    <div class="content">
 
-            <div class="welcome">
-                <h2>Dashboard</h2>
-                <p>Benvenuto nel gestionale di Luma Beach Bar.</p>
-            </div>
+        <div class="panel">
 
-            <div class="user">
-                👤 Utente
+            <h3>➕ Inserisci fatturato</h3>
+
+            <div class="form">
+
+                <label>
+                    Importo
+                    <input
+                        type="number"
+                        id="amount"
+                        placeholder="Es. 5000"
+                        min="0"
+                    >
+                </label>
+
+                <label>
+                    Descrizione
+                    <input
+                        type="text"
+                        id="description"
+                        placeholder="Es. Servizio cliente"
+                    >
+                </label>
+
+                <label>
+                    Data
+                    <input
+                        type="date"
+                        id="date"
+                    >
+                </label>
+
+                <button class="primary" onclick="addRevenue()">
+                    + Aggiungi fatturato
+                </button>
+
             </div>
 
         </div>
 
 
-        <!-- STATISTICHE -->
+        <div class="panel">
 
-        <section class="cards">
+            <h3>💰 Riepilogo</h3>
 
-            <div class="card">
-                <div class="card-title">Fatturato totale</div>
-                <div class="card-value card-blue">$0</div>
+            <div class="card-title">
+                Fatturato totale
             </div>
 
-            <div class="card">
-                <div class="card-title">Fatturato settimanale</div>
-                <div class="card-value">$0</div>
+            <div class="card-value blue" id="sideTotal">
+                $0
             </div>
 
-            <div class="card">
-                <div class="card-title">Fatturato mensile</div>
-                <div class="card-value">$0</div>
+            <br>
+
+            <div class="card-title">
+                Numero di servizi
             </div>
 
-            <div class="card">
-                <div class="card-title">Servizi effettuati</div>
-                <div class="card-value">0</div>
+            <div class="card-value" id="sideServices">
+                0
             </div>
 
-        </section>
+        </div>
+
+    </div>
+
+</section>
 
 
-        <!-- CONTENUTO -->
+<!-- OPERAZIONI -->
 
-        <section class="content">
+<section id="operazioni" class="page">
 
-            <div class="panel">
+    <div class="panel">
 
-                <h3>📈 Andamento fatturato</h3>
+        <h3>🧾 Storico operazioni</h3>
 
-                <div class="chart">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                </div>
+        <div class="table-container">
 
-                <div class="days">
-                    <span>Lun</span>
-                    <span>Mar</span>
-                    <span>Mer</span>
-                    <span>Gio</span>
-                    <span>Ven</span>
-                    <span>Sab</span>
-                    <span>Dom</span>
-                </div>
+            <table>
 
-            </div>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Descrizione</th>
+                        <th>Importo</th>
+                        <th>Azione</th>
+                    </tr>
+                </thead>
 
+                <tbody id="operations"></tbody>
 
-            <div class="panel">
+            </table>
 
-                <h3>🏆 Classifica</h3>
+        </div>
 
-                <div class="ranking-item">
-                    <div class="person">
-                        <div class="avatar">1</div>
-                        <span>Utente 1</span>
-                    </div>
-                    <span class="amount">$0</span>
-                </div>
+    </div>
 
-                <div class="ranking-item">
-                    <div class="person">
-                        <div class="avatar">2</div>
-                        <span>Utente 2</span>
-                    </div>
-                    <span class="amount">$0</span>
-                </div>
+</section>
 
-                <div class="ranking-item">
-                    <div class="person">
-                        <div class="avatar">3</div>
-                        <span>Utente 3</span>
-                    </div>
-                    <span class="amount">$0</span>
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
+</main>
 
 </div>
+
+
+<script>
+
+let revenues = JSON.parse(
+    localStorage.getItem("lumaRevenue") || "[]"
+);
+
+
+function money(value) {
+    return "$" + Number(value).toLocaleString("en-US");
+}
+
+
+function save() {
+    localStorage.setItem(
+        "lumaRevenue",
+        JSON.stringify(revenues)
+    );
+}
+
+
+function addRevenue() {
+
+    const amount =
+        Number(document.getElementById("amount").value);
+
+    const description =
+        document.getElementById("description").value.trim();
+
+    const date =
+        document.getElementById("date").value;
+
+
+    if (!amount || amount <= 0) {
+        alert("Inserisci un importo valido.");
+        return;
+    }
+
+    if (!description) {
+        alert("Inserisci una descrizione.");
+        return;
+    }
+
+    if (!date) {
+        alert("Inserisci una data.");
+        return;
+    }
+
+
+    revenues.push({
+        id: Date.now(),
+        amount: amount,
+        description: description,
+        date: date
+    });
+
+
+    save();
+
+    document.getElementById("amount").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("date").value = "";
+
+    update();
+
+    alert("Fatturato aggiunto correttamente!");
+}
+
+
+function deleteRevenue(id) {
+
+    if (!confirm("Vuoi eliminare questa operazione?")) {
+        return;
+    }
+
+    revenues = revenues.filter(item => item.id !== id);
+
+    save();
+
+    update();
+}
+
+
+function update() {
+
+    let total = 0;
+
+    revenues.forEach(item => {
+        total += Number(item.amount);
+    });
+
+
+    document.getElementById("totalRevenue").textContent =
+        money(total);
+
+    document.getElementById("sideTotal").textContent =
+        money(total);
+
+    document.getElementById("serviceCount").textContent =
+        revenues.length;
+
+    document.getElementById("sideServices").textContent =
+        revenues.length;
+
+
+    updateTables();
+
+}
+
+
+function updateTables() {
+
+    const operations =
+        document.getElementById("operations");
+
+    const dashboardOperations =
+        document.getElementById("dashboardOperations");
+
+
+    operations.innerHTML = "";
+    dashboardOperations.innerHTML = "";
+
+
+    if (revenues.length === 0) {
+
+        operations.innerHTML =
+            '<tr><td colspan="4" class="empty">Nessuna operazione registrata</td></tr>';
+
+        dashboardOperations.innerHTML =
+            '<tr><td colspan="3" class="empty">Nessuna operazione registrata</td></tr>';
+
+        return;
+    }
+
+
+    const sorted =
+        [...revenues].sort(
+            (a, b) => new Date(b.date) - new Date(a.date)
+        );
+
+
+    sorted.forEach(item => {
+
+        operations.innerHTML += `
+            <tr>
+                <td>${formatDate(item.date)}</td>
+
+                <td>${escapeHtml(item.description)}</td>
+
+                <td class="amount">
+                    ${money(item.amount)}
+                </td>
+
+                <td>
+                    <button
+                        class="delete"
+                        onclick="deleteRevenue(${item.id})">
+                        Elimina
+                    </button>
+                </td>
+            </tr>
+        `;
+
+    });
+
+
+    sorted.slice(0, 5).forEach(item => {
+
+        dashboardOperations.innerHTML += `
+            <tr>
+                <td>${formatDate(item.date)}</td>
+
+                <td>${escapeHtml(item.description)}</td>
+
+                <td class="amount">
+                    ${money(item.amount)}
+                </td>
+            </tr>
+        `;
+
+    });
+
+}
+
+
+function formatDate(date) {
+
+    const parts = date.split("-");
+
+    return parts[2] + "/" + parts[1] + "/" + parts[0];
+
+}
+
+
+function escapeHtml(text) {
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
+function showPage(page, button) {
+
+    document.querySelectorAll(".page").forEach(
+        p => p.classList.remove("active")
+    );
+
+    document.getElementById(page).classList.add("active");
+
+
+    document.querySelectorAll(".menu button").forEach(
+        b => b.classList.remove("active")
+    );
+
+    button.classList.add("active");
+
+
+    const titles = {
+        dashboard: "Dashboard",
+        fatturato: "Fatturato",
+        operazioni: "Operazioni"
+    };
+
+    document.getElementById("pageTitle").textContent =
+        titles[page];
+
+}
+
+
+update();
+
+</script>
 
 </body>
 </html>
