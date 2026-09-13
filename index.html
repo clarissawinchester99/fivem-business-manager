@@ -22,24 +22,30 @@
             color: #172033;
         }
 
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
         /* LOGIN */
 
         #loginPage {
             min-height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #0057b8, #0095ff);
+            align-items: center;
             padding: 20px;
+            background: linear-gradient(135deg, #0057b8, #0095ff);
         }
 
         .login-box {
             width: 100%;
             max-width: 420px;
-            background: white;
+            background: #ffffff;
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
         }
 
         .login-logo {
@@ -54,8 +60,19 @@
 
         .login-logo p {
             color: #78849a;
-            margin-top: 6px;
+            margin-top: 7px;
         }
+
+        .error {
+            display: none;
+            margin-bottom: 15px;
+            padding: 11px;
+            background: #ffe8e8;
+            color: #bf2525;
+            border-radius: 8px;
+        }
+
+        /* FORM */
 
         .input-group {
             margin-bottom: 18px;
@@ -74,7 +91,7 @@
             border: 1px solid #d8dfeb;
             border-radius: 9px;
             outline: none;
-            font-size: 15px;
+            background: white;
         }
 
         .input-group input:focus,
@@ -82,29 +99,30 @@
             border-color: #0874e8;
         }
 
-        .login-btn {
-            width: 100%;
-            padding: 14px;
+        .login-btn,
+        .add-btn {
             border: none;
             background: #0874e8;
             color: white;
-            font-size: 16px;
             font-weight: bold;
             border-radius: 9px;
             cursor: pointer;
         }
 
-        .login-btn:hover {
-            background: #005fc4;
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
         }
 
-        .error {
-            background: #ffe8e8;
-            color: #bf2525;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            display: none;
+        .add-btn {
+            padding: 14px 25px;
+            height: 45px;
+        }
+
+        .login-btn:hover,
+        .add-btn:hover {
+            background: #005fc4;
         }
 
         /* APP */
@@ -115,19 +133,26 @@
         }
 
         .sidebar {
-            width: 240px;
-            background: #075ebd;
-            color: white;
+            width: 250px;
             min-height: 100vh;
             position: fixed;
             left: 0;
             top: 0;
             padding: 25px 16px;
+            background: #075ebd;
+            color: white;
         }
 
         .sidebar h2 {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-subtitle {
+            text-align: center;
+            font-size: 12px;
+            opacity: 0.75;
+            margin-bottom: 30px;
         }
 
         .menu-item {
@@ -143,18 +168,34 @@
             background: rgba(255, 255, 255, 0.18);
         }
 
+        #adminMenu {
+            display: none;
+            background: rgba(255, 215, 0, 0.15);
+        }
+
         .sidebar-bottom {
             position: absolute;
-            bottom: 25px;
             left: 16px;
             right: 16px;
+            bottom: 25px;
+        }
+
+        .user-box {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 12px;
+            border-radius: 9px;
+            text-align: center;
+            margin-bottom: 10px;
         }
 
         .username-display {
-            font-size: 14px;
-            margin-bottom: 12px;
-            opacity: 0.9;
-            text-align: center;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .role-display {
+            font-size: 12px;
+            opacity: 0.8;
         }
 
         .logout-btn {
@@ -169,7 +210,7 @@
         }
 
         .main {
-            margin-left: 240px;
+            margin-left: 250px;
             padding: 30px;
         }
 
@@ -191,8 +232,10 @@
 
         .topbar p {
             color: #78849a;
-            margin-top: 4px;
+            margin-top: 5px;
         }
+
+        /* CARDS */
 
         .cards {
             display: grid;
@@ -219,6 +262,12 @@
             color: #0561c9;
         }
 
+        .admin-card {
+            border-top: 4px solid #0561c9;
+        }
+
+        /* SECTIONS */
+
         .section {
             background: white;
             padding: 25px;
@@ -238,19 +287,10 @@
             align-items: end;
         }
 
-        .add-btn {
-            border: none;
-            background: #0874e8;
-            color: white;
-            padding: 14px 25px;
-            border-radius: 9px;
-            font-weight: bold;
-            cursor: pointer;
-            height: 45px;
-        }
+        /* TABLE */
 
-        .add-btn:hover {
-            background: #005fc4;
+        .table-wrapper {
+            overflow-x: auto;
         }
 
         table {
@@ -263,6 +303,7 @@
             padding: 13px;
             background: #f4f7fb;
             color: #68758a;
+            white-space: nowrap;
         }
 
         td {
@@ -271,12 +312,30 @@
         }
 
         .delete-btn {
+            border: none;
             background: #ffeded;
             color: #d92626;
-            border: none;
             padding: 7px 11px;
             border-radius: 6px;
             cursor: pointer;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .badge-admin {
+            background: #e4efff;
+            color: #075ebd;
+        }
+
+        .badge-employee {
+            background: #edf1f6;
+            color: #68758a;
         }
 
         .empty {
@@ -287,7 +346,7 @@
 
         .coming-soon {
             text-align: center;
-            padding: 80px 20px;
+            padding: 70px 20px;
             color: #7b8798;
         }
 
@@ -296,28 +355,40 @@
             margin-bottom: 8px;
         }
 
-        @media(max-width: 1000px) {
+        /* ADMIN */
 
+        .admin-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-label {
+            background: #075ebd;
+            color: white;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+        }
+
+        @media(max-width: 1000px) {
             .cards {
                 grid-template-columns: repeat(2, 1fr);
             }
-
         }
 
         @media(max-width: 700px) {
-
             .sidebar {
                 width: 100%;
-                height: auto;
                 min-height: auto;
                 position: relative;
             }
 
             .sidebar-bottom {
                 position: relative;
-                bottom: auto;
                 left: auto;
                 right: auto;
+                bottom: auto;
                 margin-top: 20px;
             }
 
@@ -333,11 +404,6 @@
             .form-grid {
                 grid-template-columns: 1fr;
             }
-
-            table {
-                font-size: 13px;
-            }
-
         }
     </style>
 </head>
@@ -355,18 +421,24 @@
             <p>Gestionale Fatturato</p>
         </div>
 
-        <div id="loginError" class="error">
-            Username o password errati.
-        </div>
+        <div id="loginError" class="error"></div>
 
         <div class="input-group">
             <label>Username</label>
-            <input id="username" type="text" placeholder="Inserisci username">
+            <input
+                id="username"
+                type="text"
+                placeholder="Inserisci username"
+            >
         </div>
 
         <div class="input-group">
             <label>Password</label>
-            <input id="password" type="password" placeholder="Inserisci password">
+            <input
+                id="password"
+                type="password"
+                placeholder="Inserisci password"
+            >
         </div>
 
         <button class="login-btn" onclick="login()">
@@ -381,114 +453,153 @@
 
 <div id="app">
 
-    <div class="sidebar">
+    <aside class="sidebar">
 
         <h2>Luma Beach Bar</h2>
+        <div class="sidebar-subtitle">
+            Gestionale aziendale
+        </div>
 
-        <div class="menu-item active" onclick="showPage('dashboard', this)">
+        <div
+            class="menu-item active"
+            onclick="showPage('dashboard', this)"
+        >
             🏠 Dashboard
         </div>
 
-        <div class="menu-item" onclick="showPage('fatturato', this)">
+        <div
+            class="menu-item"
+            onclick="showPage('fatturato', this)"
+        >
             💰 Fatturato
         </div>
 
-        <div class="menu-item" onclick="showPage('operazioni', this)">
+        <div
+            class="menu-item"
+            onclick="showPage('operazioni', this)"
+        >
             🧾 Operazioni
         </div>
 
-        <div class="menu-item" onclick="showPage('classifica', this)">
+        <div
+            class="menu-item"
+            onclick="showPage('classifica', this)"
+        >
             🏆 Classifica
         </div>
 
-        <div class="menu-item" onclick="showPage('statistiche', this)">
+        <div
+            class="menu-item"
+            onclick="showPage('statistiche', this)"
+        >
             📊 Statistiche
+        </div>
+
+        <div
+            id="adminMenu"
+            class="menu-item"
+            onclick="showPage('admin', this)"
+        >
+            👑 Pannello Admin
         </div>
 
         <div class="sidebar-bottom">
 
-            <div id="currentUsername" class="username-display"></div>
+            <div class="user-box">
 
-            <button class="logout-btn" onclick="logout()">
+                <div
+                    id="currentUsername"
+                    class="username-display"
+                >
+                    Utente
+                </div>
+
+                <div
+                    id="currentRole"
+                    class="role-display"
+                ></div>
+
+            </div>
+
+            <button
+                class="logout-btn"
+                onclick="logout()"
+            >
                 Esci
             </button>
 
         </div>
 
-    </div>
+    </aside>
 
-    <div class="main">
+    <main class="main">
 
         <!-- DASHBOARD -->
 
         <div id="dashboard" class="page active">
 
             <div class="topbar">
-
-                <h1>Dashboard</h1>
-
-                <p>Panoramica del tuo fatturato</p>
-
+                <h1 id="dashboardTitle">Dashboard</h1>
+                <p id="dashboardSubtitle">
+                    Panoramica del tuo fatturato
+                </p>
             </div>
 
             <div class="cards">
 
                 <div class="card">
-
                     <div class="card-title">
                         Fatturato totale
                     </div>
-
-                    <div class="card-value" id="totalRevenue">
+                    <div
+                        class="card-value"
+                        id="totalRevenue"
+                    >
                         $0
                     </div>
-
                 </div>
 
                 <div class="card">
-
                     <div class="card-title">
                         Fatturato oggi
                     </div>
-
-                    <div class="card-value" id="todayRevenue">
+                    <div
+                        class="card-value"
+                        id="todayRevenue"
+                    >
                         $0
                     </div>
-
                 </div>
 
                 <div class="card">
-
                     <div class="card-title">
                         Fatturato mensile
                     </div>
-
-                    <div class="card-value" id="monthRevenue">
+                    <div
+                        class="card-value"
+                        id="monthRevenue"
+                    >
                         $0
                     </div>
-
                 </div>
 
                 <div class="card">
-
                     <div class="card-title">
                         Servizi effettuati
                     </div>
-
-                    <div class="card-value" id="serviceCount">
+                    <div
+                        class="card-value"
+                        id="serviceCount"
+                    >
                         0
                     </div>
-
                 </div>
 
             </div>
 
             <div class="section">
-
                 <h2>Ultime operazioni</h2>
-
                 <div id="dashboardOperations"></div>
-
             </div>
 
         </div>
@@ -498,11 +609,8 @@
         <div id="fatturato" class="page">
 
             <div class="topbar">
-
                 <h1>Inserisci fatturato</h1>
-
                 <p>Aggiungi un nuovo servizio effettuato</p>
-
             </div>
 
             <div class="section">
@@ -510,7 +618,6 @@
                 <div class="form-grid">
 
                     <div class="input-group">
-
                         <label>Importo ($)</label>
 
                         <input
@@ -520,15 +627,12 @@
                             step="0.01"
                             placeholder="Es. 250"
                         >
-
                     </div>
 
                     <div class="input-group">
-
                         <label>Categoria</label>
 
                         <select id="category">
-
                             <option value="Cibo">
                                 Cibo
                             </option>
@@ -536,12 +640,13 @@
                             <option value="Antistress">
                                 Antistress
                             </option>
-
                         </select>
-
                     </div>
 
-                    <button class="add-btn" onclick="addRevenue()">
+                    <button
+                        class="add-btn"
+                        onclick="addRevenue()"
+                    >
                         + Aggiungi
                     </button>
 
@@ -556,17 +661,15 @@
         <div id="operazioni" class="page">
 
             <div class="topbar">
-
                 <h1>Operazioni</h1>
 
-                <p>Storico completo del tuo fatturato</p>
-
+                <p id="operationsSubtitle">
+                    Storico completo del tuo fatturato
+                </p>
             </div>
 
             <div class="section">
-
                 <div id="operationsList"></div>
-
             </div>
 
         </div>
@@ -575,14 +678,13 @@
 
         <div id="classifica" class="page">
 
-            <div class="section coming-soon">
+            <div class="topbar">
+                <h1>Classifica</h1>
+                <p>Classifica per fatturato</p>
+            </div>
 
-                <h2>🏆 Classifica</h2>
-
-                <p>
-                    La classifica dei dipendenti verrà aggiunta nel prossimo passaggio.
-                </p>
-
+            <div class="section">
+                <div id="rankingList"></div>
             </div>
 
         </div>
@@ -596,56 +698,149 @@
                 <h2>📊 Statistiche</h2>
 
                 <p>
-                    Grafici e statistiche arriveranno nel prossimo passaggio.
+                    I grafici verranno aggiunti nel prossimo passaggio.
                 </p>
 
             </div>
 
         </div>
 
-    </div>
+        <!-- ADMIN -->
+
+        <div id="admin" class="page">
+
+            <div class="topbar">
+
+                <div class="admin-title">
+
+                    <h1>Pannello Amministratore</h1>
+
+                    <span class="admin-label">
+                        ADMIN
+                    </span>
+
+                </div>
+
+                <p>
+                    Controllo completo del fatturato Luma Beach Bar
+                </p>
+
+            </div>
+
+            <div class="cards">
+
+                <div class="card admin-card">
+                    <div class="card-title">
+                        Fatturato aziendale
+                    </div>
+
+                    <div
+                        id="adminTotal"
+                        class="card-value"
+                    >
+                        $0
+                    </div>
+                </div>
+
+                <div class="card admin-card">
+                    <div class="card-title">
+                        Fatturato oggi
+                    </div>
+
+                    <div
+                        id="adminToday"
+                        class="card-value"
+                    >
+                        $0
+                    </div>
+                </div>
+
+                <div class="card admin-card">
+                    <div class="card-title">
+                        Numero operazioni
+                    </div>
+
+                    <div
+                        id="adminOperationsCount"
+                        class="card-value"
+                    >
+                        0
+                    </div>
+                </div>
+
+                <div class="card admin-card">
+                    <div class="card-title">
+                        Dipendenti
+                    </div>
+
+                    <div
+                        id="adminEmployeesCount"
+                        class="card-value"
+                    >
+                        0
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="section">
+
+                <h2>Fatturato per dipendente</h2>
+
+                <div id="adminEmployees"></div>
+
+            </div>
+
+            <div class="section">
+
+                <h2>Tutte le operazioni</h2>
+
+                <div id="adminOperations"></div>
+
+            </div>
+
+        </div>
+
+    </main>
 
 </div>
-
 
 <script>
 
 const SUPABASE_URL =
-"https://gjpntaritunuxqaepypb.supabase.co";
+    "https://gjpntaritunuxqaepypb.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_FqBIxnWIQU2NwyU85xZ-Mg_gvTLEyt4";
+    "sb_publishable_FqBIxnWIQU2NwyU85xZ-Mg_gvTLEyt4";
 
-
-const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
-
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 let currentUser = null;
+let currentProfile = null;
 let revenues = [];
+let profiles = [];
 
-
-/* ---------------- LOGIN ---------------- */
+/* LOGIN */
 
 async function login() {
 
-    const usernameInput =
-        document.getElementById("username");
-
-    const passwordInput =
-        document.getElementById("password");
-
     const username =
-        usernameInput.value.trim().toLowerCase();
+        document
+        .getElementById("username")
+        .value
+        .trim()
+        .toLowerCase();
 
     const password =
-        passwordInput.value;
+        document
+        .getElementById("password")
+        .value;
 
-    document.getElementById("loginError").style.display =
-        "none";
-
+    hideLoginError();
 
     if (!username || !password) {
 
@@ -654,23 +849,17 @@ async function login() {
         );
 
         return;
-
     }
-
 
     const email =
         username + "@luma.local";
 
-
     const { data, error } =
-        await supabaseClient.auth.signInWithPassword({
-
-            email: email,
-
-            password: password
-
+        await supabaseClient.auth
+        .signInWithPassword({
+            email,
+            password
         });
-
 
     if (error) {
 
@@ -681,38 +870,20 @@ async function login() {
         );
 
         return;
-
     }
-
 
     currentUser = data.user;
 
     await openApp();
-
 }
 
-
-/* ---------------- ERRORE LOGIN ---------------- */
-
-function showLoginError(message) {
-
-    const box =
-        document.getElementById("loginError");
-
-    box.textContent = message;
-
-    box.style.display = "block";
-
-}
-
-
-/* ---------------- SESSIONE ---------------- */
+/* SESSIONE */
 
 async function checkSession() {
 
     const { data } =
-        await supabaseClient.auth.getSession();
-
+        await supabaseClient.auth
+        .getSession();
 
     if (
         data &&
@@ -728,166 +899,171 @@ async function checkSession() {
     } else {
 
         showLogin();
-
     }
-
 }
 
-
-/* ---------------- APRI APP ---------------- */
+/* APRI APP */
 
 async function openApp() {
 
-    document.getElementById("loginPage").style.display =
-        "none";
+    document.getElementById(
+        "loginPage"
+    ).style.display = "none";
 
-    document.getElementById("app").style.display =
-        "block";
-
+    document.getElementById(
+        "app"
+    ).style.display = "block";
 
     await loadProfile();
 
-    await loadRevenues();
+    await loadData();
 
+    configureInterface();
 }
 
-
-/* ---------------- LOGIN PAGE ---------------- */
-
-function showLogin() {
-
-    document.getElementById("app").style.display =
-        "none";
-
-    document.getElementById("loginPage").style.display =
-        "flex";
-
-}
-
-
-/* ---------------- PROFILO ---------------- */
+/* PROFILO */
 
 async function loadProfile() {
 
-    if (!currentUser)
-        return;
-
-
     const { data, error } =
         await supabaseClient
-
         .from("profiles")
-
-        .select("username")
-
+        .select("id, username, role")
         .eq("id", currentUser.id)
-
         .single();
-
-
-    if (!error && data) {
-
-        document.getElementById(
-            "currentUsername"
-        ).textContent =
-            "👤 " + data.username;
-
-    } else {
-
-        document.getElementById(
-            "currentUsername"
-        ).textContent =
-            "👤 Utente";
-
-    }
-
-}
-
-
-/* ---------------- LOGOUT ---------------- */
-
-async function logout() {
-
-    await supabaseClient.auth.signOut();
-
-    currentUser = null;
-
-    revenues = [];
-
-    document.getElementById("username").value =
-        "";
-
-    document.getElementById("password").value =
-        "";
-
-    showLogin();
-
-}
-
-
-/* ---------------- CARICA FATTURATO ---------------- */
-
-async function loadRevenues() {
-
-    if (!currentUser)
-        return;
-
-
-    const { data, error } =
-        await supabaseClient
-
-        .from("Revenues")
-
-        .select("*")
-
-        .order(
-            "created_at",
-            { ascending: false }
-        );
-
 
     if (error) {
 
         console.error(
-            "Errore caricamento:",
+            "Errore profilo:",
             error
         );
 
         return;
-
     }
 
+    currentProfile = data;
 
-    revenues = data || [];
+    document.getElementById(
+        "currentUsername"
+    ).textContent =
+        "👤 " + data.username;
+
+    document.getElementById(
+        "currentRole"
+    ).textContent =
+        data.role === "admin"
+        ? "Amministratore"
+        : "Dipendente";
+}
+
+/* CARICAMENTO DATI */
+
+async function loadData() {
+
+    if (!currentProfile)
+        return;
+
+    if (currentProfile.role === "admin") {
+
+        await loadAdminProfiles();
+
+    } else {
+
+        profiles = [
+            currentProfile
+        ];
+    }
+
+    await loadRevenues();
 
     updateDashboard();
 
     renderOperations();
 
+    renderRanking();
+
+    if (
+        currentProfile.role === "admin"
+    ) {
+
+        renderAdmin();
+    }
 }
 
+/* PROFILI ADMIN */
 
-/* ---------------- AGGIUNGI FATTURATO ---------------- */
+async function loadAdminProfiles() {
+
+    const { data, error } =
+        await supabaseClient
+        .from("profiles")
+        .select("id, username, role")
+        .order("username");
+
+    if (error) {
+
+        console.error(
+            "Errore profili:",
+            error
+        );
+
+        profiles = [];
+
+        return;
+    }
+
+    profiles = data || [];
+}
+
+/* FATTURATO */
+
+async function loadRevenues() {
+
+    const { data, error } =
+        await supabaseClient
+        .from("Revenues")
+        .select("*")
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
+
+    if (error) {
+
+        console.error(
+            "Errore caricamento fatturato:",
+            error
+        );
+
+        revenues = [];
+
+        return;
+    }
+
+    revenues = data || [];
+}
+
+/* AGGIUNGI */
 
 async function addRevenue() {
 
     if (!currentUser)
         return;
 
-
-    const amountInput =
-        document.getElementById("amount");
-
-    const categoryInput =
-        document.getElementById("category");
-
-
     const amount =
-        parseFloat(amountInput.value);
+        parseFloat(
+            document
+            .getElementById("amount")
+            .value
+        );
 
     const category =
-        categoryInput.value;
-
+        document
+        .getElementById("category")
+        .value;
 
     if (
         isNaN(amount) ||
@@ -899,29 +1075,18 @@ async function addRevenue() {
         );
 
         return;
-
     }
-
 
     const { error } =
         await supabaseClient
-
         .from("Revenues")
-
         .insert([
-
             {
-
-                amount: amount,
-
-                category: category,
-
+                amount,
+                category,
                 user_id: currentUser.id
-
             }
-
         ]);
-
 
     if (error) {
 
@@ -932,67 +1097,89 @@ async function addRevenue() {
         );
 
         return;
-
     }
 
+    document.getElementById(
+        "amount"
+    ).value = "";
 
-    amountInput.value =
-        "";
-
-
-    await loadRevenues();
-
+    await loadData();
 
     alert(
         "Fatturato aggiunto!"
     );
-
 }
 
-
-/* ---------------- ELIMINA ---------------- */
+/* ELIMINA */
 
 async function deleteRevenue(id) {
 
-    const conferma =
+    const confirmDelete =
         confirm(
             "Vuoi eliminare questa operazione?"
         );
 
-
-    if (!conferma)
+    if (!confirmDelete)
         return;
-
 
     const { error } =
         await supabaseClient
-
         .from("Revenues")
-
         .delete()
-
         .eq("id", id);
-
 
     if (error) {
 
         console.error(error);
 
         alert(
-            "Errore durante l'eliminazione."
+            "Non puoi eliminare questa operazione."
         );
 
         return;
-
     }
 
-
-    await loadRevenues();
-
+    await loadData();
 }
 
+/* INTERFACCIA RUOLI */
 
-/* ---------------- DASHBOARD ---------------- */
+function configureInterface() {
+
+    const isAdmin =
+        currentProfile &&
+        currentProfile.role === "admin";
+
+    document.getElementById(
+        "adminMenu"
+    ).style.display =
+        isAdmin
+        ? "block"
+        : "none";
+
+    document.getElementById(
+        "dashboardTitle"
+    ).textContent =
+        isAdmin
+        ? "Dashboard Aziendale"
+        : "Dashboard";
+
+    document.getElementById(
+        "dashboardSubtitle"
+    ).textContent =
+        isAdmin
+        ? "Panoramica generale del Luma Beach Bar"
+        : "Panoramica del tuo fatturato";
+
+    document.getElementById(
+        "operationsSubtitle"
+    ).textContent =
+        isAdmin
+        ? "Storico delle operazioni visibili"
+        : "Storico completo del tuo fatturato";
+}
+
+/* DASHBOARD */
 
 function updateDashboard() {
 
@@ -1000,10 +1187,8 @@ function updateDashboard() {
     let todayTotal = 0;
     let monthTotal = 0;
 
-
     const today =
         new Date();
-
 
     revenues.forEach(item => {
 
@@ -1011,72 +1196,55 @@ function updateDashboard() {
             Number(item.amount);
 
         const date =
-            new Date(item.created_at);
-
+            new Date(
+                item.created_at
+            );
 
         total += amount;
 
-
         if (
-
-            date.getDate() === today.getDate() &&
-
-            date.getMonth() === today.getMonth() &&
-
-            date.getFullYear() === today.getFullYear()
-
+            sameDay(
+                date,
+                today
+            )
         ) {
-
             todayTotal += amount;
-
         }
-
 
         if (
-
-            date.getMonth() === today.getMonth() &&
-
-            date.getFullYear() === today.getFullYear()
-
+            date.getMonth() ===
+                today.getMonth() &&
+            date.getFullYear() ===
+                today.getFullYear()
         ) {
-
             monthTotal += amount;
-
         }
-
     });
-
 
     document.getElementById(
         "totalRevenue"
     ).textContent =
         formatMoney(total);
 
-
     document.getElementById(
         "todayRevenue"
     ).textContent =
         formatMoney(todayTotal);
-
 
     document.getElementById(
         "monthRevenue"
     ).textContent =
         formatMoney(monthTotal);
 
-
     document.getElementById(
         "serviceCount"
     ).textContent =
         revenues.length;
 
-
     renderDashboardOperations();
-
 }
 
-
-/* ---------------- OPERAZIONI DASHBOARD ---------------- */
+/* ULTIME OPERAZIONI */
 
 function renderDashboardOperations() {
 
@@ -1085,84 +1253,87 @@ function renderDashboardOperations() {
             "dashboardOperations"
         );
 
-
-    if (revenues.length === 0) {
+    if (!revenues.length) {
 
         container.innerHTML =
             '<div class="empty">Nessuna operazione presente.</div>';
 
         return;
-
     }
-
 
     const recent =
         revenues.slice(0, 5);
 
+    const showUser =
+        currentProfile.role === "admin";
 
     let html = `
-
-    <table>
-
-        <thead>
-
-            <tr>
-
-                <th>Data</th>
-
-                <th>Categoria</th>
-
-                <th>Importo</th>
-
-            </tr>
-
-        </thead>
-
-        <tbody>
-
+        <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    ${showUser
+                        ? "<th>Utente</th>"
+                        : ""
+                    }
+                    <th>Data</th>
+                    <th>Categoria</th>
+                    <th>Importo</th>
+                </tr>
+            </thead>
+            <tbody>
     `;
-
 
     recent.forEach(item => {
 
         html += `
+            <tr>
 
-        <tr>
+                ${showUser
+                    ? `
+                    <td>
+                        ${escapeHTML(
+                            getUsername(
+                                item.user_id
+                            )
+                        )}
+                    </td>
+                    `
+                    : ""
+                }
 
-            <td>
-                ${formatDate(item.created_at)}
-            </td>
+                <td>
+                    ${formatDate(
+                        item.created_at
+                    )}
+                </td>
 
-            <td>
-                ${escapeHTML(item.category)}
-            </td>
+                <td>
+                    ${escapeHTML(
+                        item.category
+                    )}
+                </td>
 
-            <td>
-                ${formatMoney(item.amount)}
-            </td>
+                <td>
+                    ${formatMoney(
+                        item.amount
+                    )}
+                </td>
 
-        </tr>
-
+            </tr>
         `;
-
     });
 
-
     html += `
-
-        </tbody>
-
-    </table>
-
+            </tbody>
+        </table>
+        </div>
     `;
 
-
     container.innerHTML = html;
-
 }
 
-
-/* ---------------- STORICO ---------------- */
+/* OPERAZIONI */
 
 function renderOperations() {
 
@@ -1171,209 +1342,697 @@ function renderOperations() {
             "operationsList"
         );
 
-
-    if (revenues.length === 0) {
+    if (!revenues.length) {
 
         container.innerHTML =
             '<div class="empty">Nessuna operazione presente.</div>';
 
         return;
-
     }
 
+    const showUser =
+        currentProfile.role === "admin";
 
     let html = `
+        <div class="table-wrapper">
 
-    <table>
+        <table>
 
-        <thead>
+            <thead>
+                <tr>
 
-            <tr>
+                    ${showUser
+                        ? "<th>Utente</th>"
+                        : ""
+                    }
 
-                <th>Data</th>
+                    <th>Data</th>
+                    <th>Categoria</th>
+                    <th>Importo</th>
+                    <th></th>
 
-                <th>Categoria</th>
+                </tr>
+            </thead>
 
-                <th>Importo</th>
-
-                <th></th>
-
-            </tr>
-
-        </thead>
-
-        <tbody>
-
+            <tbody>
     `;
 
+    revenues.forEach(item => {
+
+        const canDelete =
+            item.user_id ===
+            currentUser.id;
+
+        html += `
+            <tr>
+
+                ${showUser
+                    ? `
+                    <td>
+                        ${escapeHTML(
+                            getUsername(
+                                item.user_id
+                            )
+                        )}
+                    </td>
+                    `
+                    : ""
+                }
+
+                <td>
+                    ${formatDate(
+                        item.created_at
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        item.category
+                    )}
+                </td>
+
+                <td>
+                    ${formatMoney(
+                        item.amount
+                    )}
+                </td>
+
+                <td>
+
+                    ${
+                        canDelete
+                        ? `
+                        <button
+                            class="delete-btn"
+                            onclick="deleteRevenue('${item.id}')"
+                        >
+                            Elimina
+                        </button>
+                        `
+                        : ""
+                    }
+
+                </td>
+
+            </tr>
+        `;
+    });
+
+    html += `
+            </tbody>
+        </table>
+
+        </div>
+    `;
+
+    container.innerHTML = html;
+}
+
+/* CLASSIFICA */
+
+function renderRanking() {
+
+    const container =
+        document.getElementById(
+            "rankingList"
+        );
+
+    if (!revenues.length) {
+
+        container.innerHTML =
+            '<div class="empty">Nessun dato disponibile.</div>';
+
+        return;
+    }
+
+    const totals = {};
+
+    revenues.forEach(item => {
+
+        const userId =
+            item.user_id;
+
+        if (!totals[userId]) {
+
+            totals[userId] = {
+                userId,
+                total: 0,
+                services: 0
+            };
+        }
+
+        totals[userId].total +=
+            Number(item.amount);
+
+        totals[userId].services++;
+    });
+
+    const ranking =
+        Object
+        .values(totals)
+        .sort(
+            (a, b) =>
+                b.total - a.total
+        );
+
+    let html = `
+        <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Posizione</th>
+                    <th>Utente</th>
+                    <th>Servizi</th>
+                    <th>Fatturato</th>
+                </tr>
+            </thead>
+
+            <tbody>
+    `;
+
+    ranking.forEach(
+        (item, index) => {
+
+            html += `
+                <tr>
+
+                    <td>
+                        ${rankingMedal(
+                            index
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            getUsername(
+                                item.userId
+                            )
+                        )}
+                    </td>
+
+                    <td>
+                        ${item.services}
+                    </td>
+
+                    <td>
+                        ${formatMoney(
+                            item.total
+                        )}
+                    </td>
+
+                </tr>
+            `;
+        }
+    );
+
+    html += `
+            </tbody>
+        </table>
+
+        </div>
+    `;
+
+    container.innerHTML = html;
+}
+
+/* ADMIN */
+
+function renderAdmin() {
+
+    if (
+        currentProfile.role !==
+        "admin"
+    ) {
+        return;
+    }
+
+    let total = 0;
+    let todayTotal = 0;
+
+    const today =
+        new Date();
+
+    revenues.forEach(item => {
+
+        const amount =
+            Number(item.amount);
+
+        total += amount;
+
+        if (
+            sameDay(
+                new Date(
+                    item.created_at
+                ),
+                today
+            )
+        ) {
+            todayTotal += amount;
+        }
+    });
+
+    const employees =
+        profiles.filter(
+            profile =>
+                profile.role ===
+                "employee"
+        );
+
+    document.getElementById(
+        "adminTotal"
+    ).textContent =
+        formatMoney(total);
+
+    document.getElementById(
+        "adminToday"
+    ).textContent =
+        formatMoney(todayTotal);
+
+    document.getElementById(
+        "adminOperationsCount"
+    ).textContent =
+        revenues.length;
+
+    document.getElementById(
+        "adminEmployeesCount"
+    ).textContent =
+        employees.length;
+
+    renderAdminEmployees();
+
+    renderAdminOperations();
+}
+
+/* ADMIN DIPENDENTI */
+
+function renderAdminEmployees() {
+
+    const container =
+        document.getElementById(
+            "adminEmployees"
+        );
+
+    const employees =
+        profiles.filter(
+            profile =>
+                profile.role ===
+                "employee"
+        );
+
+    if (!employees.length) {
+
+        container.innerHTML =
+            '<div class="empty">Nessun dipendente presente.</div>';
+
+        return;
+    }
+
+    let html = `
+        <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Dipendente</th>
+                    <th>Servizi</th>
+                    <th>Fatturato</th>
+                    <th>Ruolo</th>
+                </tr>
+            </thead>
+
+            <tbody>
+    `;
+
+    employees.forEach(
+        employee => {
+
+            const userRevenues =
+                revenues.filter(
+                    item =>
+                        item.user_id ===
+                        employee.id
+                );
+
+            const total =
+                userRevenues.reduce(
+                    (sum, item) =>
+                        sum +
+                        Number(
+                            item.amount
+                        ),
+                    0
+                );
+
+            html += `
+                <tr>
+
+                    <td>
+                        ${escapeHTML(
+                            employee.username
+                        )}
+                    </td>
+
+                    <td>
+                        ${userRevenues.length}
+                    </td>
+
+                    <td>
+                        ${formatMoney(
+                            total
+                        )}
+                    </td>
+
+                    <td>
+                        <span
+                            class="badge badge-employee"
+                        >
+                            Dipendente
+                        </span>
+                    </td>
+
+                </tr>
+            `;
+        }
+    );
+
+    html += `
+            </tbody>
+        </table>
+
+        </div>
+    `;
+
+    container.innerHTML = html;
+}
+
+/* ADMIN OPERAZIONI */
+
+function renderAdminOperations() {
+
+    const container =
+        document.getElementById(
+            "adminOperations"
+        );
+
+    if (!revenues.length) {
+
+        container.innerHTML =
+            '<div class="empty">Nessuna operazione presente.</div>';
+
+        return;
+    }
+
+    let html = `
+        <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Dipendente</th>
+                    <th>Data</th>
+                    <th>Categoria</th>
+                    <th>Importo</th>
+                </tr>
+            </thead>
+
+            <tbody>
+    `;
 
     revenues.forEach(item => {
 
         html += `
+            <tr>
 
-        <tr>
+                <td>
+                    ${escapeHTML(
+                        getUsername(
+                            item.user_id
+                        )
+                    )}
+                </td>
 
-            <td>
-                ${formatDate(item.created_at)}
-            </td>
+                <td>
+                    ${formatDate(
+                        item.created_at
+                    )}
+                </td>
 
-            <td>
-                ${escapeHTML(item.category)}
-            </td>
+                <td>
+                    ${escapeHTML(
+                        item.category
+                    )}
+                </td>
 
-            <td>
-                ${formatMoney(item.amount)}
-            </td>
+                <td>
+                    ${formatMoney(
+                        item.amount
+                    )}
+                </td>
 
-            <td>
-
-                <button
-                    class="delete-btn"
-                    onclick="deleteRevenue('${item.id}')"
-                >
-
-                    Elimina
-
-                </button>
-
-            </td>
-
-        </tr>
-
+            </tr>
         `;
-
     });
 
-
     html += `
+            </tbody>
+        </table>
 
-        </tbody>
-
-    </table>
-
+        </div>
     `;
 
-
     container.innerHTML = html;
-
 }
 
+/* USERNAME DA ID */
 
-/* ---------------- PAGINE ---------------- */
+function getUsername(userId) {
 
-function showPage(pageId, element) {
+    const profile =
+        profiles.find(
+            item =>
+                item.id === userId
+        );
+
+    if (profile) {
+        return profile.username;
+    }
+
+    if (
+        currentProfile &&
+        currentProfile.id === userId
+    ) {
+        return currentProfile.username;
+    }
+
+    return "Utente";
+}
+
+/* LOGOUT */
+
+async function logout() {
+
+    await supabaseClient.auth
+        .signOut();
+
+    currentUser = null;
+    currentProfile = null;
+    revenues = [];
+    profiles = [];
+
+    document.getElementById(
+        "username"
+    ).value = "";
+
+    document.getElementById(
+        "password"
+    ).value = "";
+
+    showLogin();
+}
+
+/* LOGIN PAGE */
+
+function showLogin() {
+
+    document.getElementById(
+        "app"
+    ).style.display = "none";
+
+    document.getElementById(
+        "loginPage"
+    ).style.display = "flex";
+}
+
+/* PAGINE */
+
+function showPage(
+    pageId,
+    element
+) {
+
+    if (
+        pageId === "admin" &&
+        (
+            !currentProfile ||
+            currentProfile.role !==
+            "admin"
+        )
+    ) {
+        return;
+    }
 
     document
         .querySelectorAll(".page")
-        .forEach(page => {
-
-            page.classList.remove("active");
-
-        });
-
+        .forEach(
+            page =>
+                page.classList
+                .remove("active")
+        );
 
     document
         .getElementById(pageId)
-        .classList.add("active");
-
+        .classList
+        .add("active");
 
     document
-        .querySelectorAll(".menu-item")
-        .forEach(item => {
+        .querySelectorAll(
+            ".menu-item"
+        )
+        .forEach(
+            item =>
+                item.classList
+                .remove("active")
+        );
 
-            item.classList.remove("active");
-
-        });
-
-
-    element.classList.add("active");
-
+    element.classList.add(
+        "active"
+    );
 }
 
+/* UTILITY */
 
-/* ---------------- FORMATTA SOLDI ---------------- */
+function sameDay(
+    first,
+    second
+) {
+
+    return (
+        first.getDate() ===
+            second.getDate() &&
+        first.getMonth() ===
+            second.getMonth() &&
+        first.getFullYear() ===
+            second.getFullYear()
+    );
+}
 
 function formatMoney(value) {
 
     return "$" +
-        Number(value).toLocaleString(
+        Number(value)
+        .toLocaleString(
             "en-US",
             {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 2
             }
         );
-
 }
-
-
-/* ---------------- FORMATTA DATA ---------------- */
 
 function formatDate(value) {
 
-    const date =
-        new Date(value);
-
-
-    return date.toLocaleString(
-        "it-IT",
-        {
-
-            day: "2-digit",
-
-            month: "2-digit",
-
-            year: "numeric",
-
-            hour: "2-digit",
-
-            minute: "2-digit"
-
-        }
-    );
-
+    return new Date(value)
+        .toLocaleString(
+            "it-IT",
+            {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
 }
 
+function rankingMedal(index) {
 
-/* ---------------- SICUREZZA TESTO ---------------- */
+    if (index === 0)
+        return "🥇 1°";
+
+    if (index === 1)
+        return "🥈 2°";
+
+    if (index === 2)
+        return "🥉 3°";
+
+    return (index + 1) + "°";
+}
 
 function escapeHTML(text) {
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     div.textContent =
         text || "";
 
     return div.innerHTML;
-
 }
 
+function showLoginError(
+    message
+) {
 
-/* ---------------- ENTER LOGIN ---------------- */
+    const box =
+        document.getElementById(
+            "loginError"
+        );
+
+    box.textContent =
+        message;
+
+    box.style.display =
+        "block";
+}
+
+function hideLoginError() {
+
+    document.getElementById(
+        "loginError"
+    ).style.display =
+        "none";
+}
+
+/* ENTER */
 
 document
-    .getElementById("password")
+    .getElementById(
+        "password"
+    )
     .addEventListener(
         "keydown",
-        function(event) {
+        event => {
 
-            if (event.key === "Enter") {
-
+            if (
+                event.key ===
+                "Enter"
+            ) {
                 login();
-
             }
-
         }
     );
 
-
-/* ---------------- AVVIO ---------------- */
+/* AVVIO */
 
 checkSession();
 
 </script>
 
 </body>
-
 </html>
