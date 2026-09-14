@@ -890,6 +890,7 @@
         <button id="navAdmin" class="nav-button" onclick="showPage('admin')">♛ &nbsp; Pannello Admin</button>
         <button id="navEmployees" class="nav-button" onclick="showPage('employees')">♢ &nbsp; Dipendenti</button>
         <button id="navSalary" class="nav-button" onclick="showPage('salary')">$ &nbsp; Stipendi</button>
+        <button id="navImport" class="nav-button" onclick="showPage('import')">📦 &nbsp; Carico Import</button>
       </div>
 
       <button class="logout" onclick="logout()">Esci</button>
@@ -1031,9 +1032,21 @@
       <section id="page-admin" class="hidden">
         <div class="cards">
           <div class="card">
-            <div class="card-label">Fatturato Luma</div>
+            <div class="card-label">Fatturato lordo</div>
             <div id="businessTotal" class="card-value">$0</div>
-            <div class="card-small">Totale attività</div>
+            <div class="card-small">Totale fatture registrate</div>
+          </div>
+
+          <div class="card">
+            <div class="card-label">Spese Import</div>
+            <div id="importExpenseTotal" class="card-value">$0</div>
+            <div class="card-small">Totale ordini kit</div>
+          </div>
+
+          <div class="card">
+            <div class="card-label">Saldo aziendale</div>
+            <div id="companyBalance" class="card-value">$0</div>
+            <div class="card-small">Fatturato meno spese import</div>
           </div>
 
           <div class="card">
@@ -1102,6 +1115,99 @@
         </div>
       </section>
 
+
+      <!-- CARICO IMPORT -->
+      <section id="page-import" class="hidden">
+        <div class="cards">
+          <div class="card">
+            <div class="card-label">Spese Import totali</div>
+            <div id="importPageTotal" class="card-value">$0</div>
+            <div class="card-small">Somma di tutti gli ordini registrati</div>
+          </div>
+
+          <div class="card">
+            <div class="card-label">Saldo aziendale</div>
+            <div id="importPageBalance" class="card-value">$0</div>
+            <div class="card-small">Fatturato lordo meno import</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="invoice-luxury">
+            <div class="invoice-heading">
+              <div style="display:flex;align-items:center;gap:14px">
+                <div class="seal">📦</div>
+                <div>
+                  <h3>Nuovo ordine Import</h3>
+                  <p>Registra i kit acquistati per il Luma Beach Bar</p>
+                </div>
+              </div>
+              <div class="invoice-number">
+                Amministrazione<br />
+                <strong style="color:white">IMPORT</strong>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="field">
+                <label>TIPO KIT</label>
+                <select id="importKitType">
+                  <option value="">Seleziona kit</option>
+                  <option value="Kit Cibo">Kit Cibo</option>
+                  <option value="Kit Bevande">Kit Bevande</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>QUANTITÀ</label>
+                <input id="importQuantity" type="number" min="1" step="1" placeholder="Es. 10" oninput="updateImportPreview()" />
+              </div>
+
+              <div class="field">
+                <label>PREZZO PER KIT $</label>
+                <input id="importUnitPrice" type="number" min="0" step="1" placeholder="Es. 500" oninput="updateImportPreview()" />
+              </div>
+
+              <div class="field">
+                <label>TOTALE ORDINE</label>
+                <input id="importTotalPreview" type="text" value="$0" readonly />
+              </div>
+
+              <div class="full">
+                <button class="save-btn" onclick="saveImportOrder()">Registra ordine import</button>
+                <div id="importMessage" class="message" style="text-align:left"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <h2>Storico ordini Import</h2>
+              <div class="panel-subtitle">Ogni ordine riduce automaticamente il saldo aziendale</div>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Kit</th>
+                  <th>Quantità</th>
+                  <th>Prezzo unitario</th>
+                  <th>Totale</th>
+                  <th>Registrato da</th>
+                  <th>Azione</th>
+                </tr>
+              </thead>
+              <tbody id="importOrdersTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       <div class="footer-note">LUMA BEACH BAR · PRIVATE BUSINESS MANAGEMENT</div>
     </main>
   </section>
@@ -1124,6 +1230,7 @@
     let myInvoices = [];
     let allInvoices = [];
     let allProfiles = [];
+    let importOrders = [];
 
     const salaryPercentages = {
       dipendente: 20,
@@ -1209,6 +1316,7 @@
       myInvoices = [];
       allInvoices = [];
       allProfiles = [];
+      importOrders = [];
 
       document.getElementById("app").classList.add("hidden");
       document.getElementById("loginPage").classList.remove("hidden");
@@ -1278,7 +1386,7 @@
     }
 
     async function loadAdminData() {
-      const [invoiceResponse, profileResponse] = await Promise.all([
+      const [invoiceResponse, profileResponse, importResponse] = await Promise.all([
         db
           .from("Revenues")
           .select("*")
@@ -1287,7 +1395,12 @@
         db
           .from("profiles")
           .select("id, username, role, grade")
-          .order("username", { ascending: true })
+          .order("username", { ascending: true }),
+
+        db
+          .from("ImportOrders")
+          .select("*")
+          .order("created_at", { ascending: false })
       ]);
 
       if (invoiceResponse.error) {
@@ -1304,9 +1417,17 @@
         allProfiles = profileResponse.data || [];
       }
 
+      if (importResponse.error) {
+        console.error("Errore ordini import:", importResponse.error);
+        importOrders = [];
+      } else {
+        importOrders = importResponse.data || [];
+      }
+
       renderAdmin();
       renderEmployees();
       renderSalaries();
+      renderImportOrders();
     }
 
     /* ================================
@@ -1429,9 +1550,24 @@
         0
       );
 
+      const importTotal = importOrders.reduce(
+        (sum, order) => sum + Number(order.total_price || 0),
+        0
+      );
+
+      const balance = total - importTotal;
+
       document.getElementById("businessTotal").textContent = money(total);
+      document.getElementById("importExpenseTotal").textContent = money(importTotal);
+      document.getElementById("companyBalance").textContent = money(balance);
       document.getElementById("businessInvoiceCount").textContent = allInvoices.length;
       document.getElementById("employeeCount").textContent = allProfiles.length;
+
+      if (balance < 0) {
+        document.getElementById("companyBalance").style.color = "var(--danger)";
+      } else {
+        document.getElementById("companyBalance").style.color = "";
+      }
 
       const tbody = document.getElementById("adminInvoicesTable");
 
@@ -1575,11 +1711,163 @@
     }
 
     /* ================================
+       CARICO IMPORT
+    ================================= */
+    function updateImportPreview() {
+      const quantity = Number(document.getElementById("importQuantity")?.value || 0);
+      const unitPrice = Number(document.getElementById("importUnitPrice")?.value || 0);
+      const total = quantity * unitPrice;
+
+      const preview = document.getElementById("importTotalPreview");
+      if (preview) preview.value = money(total);
+    }
+
+    async function saveImportOrder() {
+      if (currentProfile?.role !== "admin") {
+        alert("Operazione non autorizzata.");
+        return;
+      }
+
+      const kitType = document.getElementById("importKitType").value;
+      const quantity = Number(document.getElementById("importQuantity").value);
+      const unitPrice = Number(document.getElementById("importUnitPrice").value);
+      const totalPrice = quantity * unitPrice;
+      const message = document.getElementById("importMessage");
+
+      message.textContent = "";
+      message.className = "message";
+
+      if (!kitType) {
+        message.textContent = "Seleziona il tipo di kit.";
+        message.className = "message error";
+        return;
+      }
+
+      if (!Number.isInteger(quantity) || quantity <= 0) {
+        message.textContent = "Inserisci una quantità valida.";
+        message.className = "message error";
+        return;
+      }
+
+      if (!unitPrice || unitPrice <= 0) {
+        message.textContent = "Inserisci un prezzo per kit valido.";
+        message.className = "message error";
+        return;
+      }
+
+      const { error } = await db
+        .from("ImportOrders")
+        .insert({
+          kit_type: kitType,
+          quantity,
+          unit_price: unitPrice,
+          total_price: totalPrice,
+          user_id: currentUser.id
+        });
+
+      if (error) {
+        console.error(error);
+        message.textContent = "Errore durante il salvataggio dell'ordine.";
+        message.className = "message error";
+        return;
+      }
+
+      document.getElementById("importKitType").value = "";
+      document.getElementById("importQuantity").value = "";
+      document.getElementById("importUnitPrice").value = "";
+      document.getElementById("importTotalPreview").value = "$0";
+
+      message.textContent = "Ordine import registrato correttamente.";
+      message.className = "message success";
+
+      await refreshData();
+    }
+
+    function renderImportOrders() {
+      const table = document.getElementById("importOrdersTable");
+      if (!table) return;
+
+      const invoiceTotal = allInvoices.reduce(
+        (sum, invoice) => sum + Number(invoice.amount || 0),
+        0
+      );
+
+      const importTotal = importOrders.reduce(
+        (sum, order) => sum + Number(order.total_price || 0),
+        0
+      );
+
+      const balance = invoiceTotal - importTotal;
+
+      document.getElementById("importPageTotal").textContent = money(importTotal);
+      document.getElementById("importPageBalance").textContent = money(balance);
+
+      if (balance < 0) {
+        document.getElementById("importPageBalance").style.color = "var(--danger)";
+      } else {
+        document.getElementById("importPageBalance").style.color = "";
+      }
+
+      if (!importOrders.length) {
+        table.innerHTML = `
+          <tr>
+            <td colspan="7" class="empty">Nessun ordine import registrato.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      table.innerHTML = importOrders.map(order => {
+        const profile = allProfiles.find(profile => profile.id === order.user_id);
+        const username = profile ? profile.username : "Admin";
+
+        return `
+          <tr>
+            <td>${formatDate(order.created_at)}</td>
+            <td><span class="badge">${escapeHtml(order.kit_type)}</span></td>
+            <td>${Number(order.quantity || 0)}</td>
+            <td>${money(order.unit_price)}</td>
+            <td class="amount">${money(order.total_price)}</td>
+            <td>${escapeHtml(username)}</td>
+            <td>
+              <button class="delete-btn" onclick="deleteImportOrder(${Number(order.id)})">
+                Elimina
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    async function deleteImportOrder(id) {
+      if (currentProfile?.role !== "admin") {
+        alert("Operazione non autorizzata.");
+        return;
+      }
+
+      const confirmation = confirm("Vuoi eliminare questo ordine import?");
+      if (!confirmation) return;
+
+      const { error } = await db
+        .from("ImportOrders")
+        .delete()
+        .eq("id", id);
+
+      if (error) {
+        console.error(error);
+        alert("Non è stato possibile eliminare l'ordine import.");
+        return;
+      }
+
+      await refreshData();
+    }
+
+    /* ================================
        NAVIGAZIONE
     ================================= */
     function showPage(page) {
       if (
-        ["admin", "employees", "salary"].includes(page) &&
+        ["admin", "employees", "salary", "import"].includes(page) &&
         currentProfile?.role !== "admin"
       ) {
         page = "dashboard";
@@ -1591,7 +1879,8 @@
         "history",
         "admin",
         "employees",
-        "salary"
+        "salary",
+        "import"
       ];
 
       pages.forEach(name => {
@@ -1612,7 +1901,8 @@
         history: "navHistory",
         admin: "navAdmin",
         employees: "navEmployees",
-        salary: "navSalary"
+        salary: "navSalary",
+        import: "navImport"
       };
 
       const activeButton = document.getElementById(navMap[page]);
@@ -1624,7 +1914,8 @@
         history: "Le mie fatture",
         admin: "Pannello Admin",
         employees: "Dipendenti",
-        salary: "Stipendi"
+        salary: "Stipendi",
+        import: "Carico Import"
       };
 
       document.getElementById("pageTitle").textContent =
